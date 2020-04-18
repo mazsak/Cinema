@@ -11,17 +11,19 @@ import entities.User;
 
 import java.sql.Blob;
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class InitDatabase {
 
     public static void loadingData(){
-        user();
-        actor();
-        director();
-        movie();
+        loadUsers();
+        loadActors();
+        loadDirectors();
+        loadMovies();
     }
 
-    private static void user(){
+    private static void loadUsers(){
         UserDao userDao = new UserDao();
         userDao.save(User.builder()
                 .username("user1")
@@ -40,7 +42,7 @@ public class InitDatabase {
                 .phoneNumber(123123123).build());
     }
 
-    private static void actor(){
+    private static void loadActors(){
         ActorDao actorDao = new ActorDao();
         actorDao.save(Actor.builder()
                 .firstName("Cezary")
@@ -60,7 +62,7 @@ public class InitDatabase {
                 .birthPlace("Krakow").height(174).build());
     }
 
-    private static void director(){
+    private static void loadDirectors(){
         DirectorDao directorDao = new DirectorDao();
         directorDao.save(Director.builder()
                 .firstName("CezaryD")
@@ -80,24 +82,24 @@ public class InitDatabase {
                 .birthPlace("Krakow").height(174).build());
     }
 
-    private static void movie(){
-        MovieDao movieDao = new MovieDao();
+    private static void loadMovies(){
         ActorDao actorDao = new ActorDao();
         DirectorDao directorDao = new DirectorDao();
+         movie("The Lord Of The Rings: The Fellowship of the ring",
+                 "The Dark Lord Sauron forges the One Ring in Mount Doom, installing into it a great part of his power to dominate the other Rings, so he might conquer Middle-earth.",
+                 actorDao.findAll(), directorDao.findAll().stream().limit(2).collect(Collectors.toList()),
+                 178);
+         movie("Iron Man", "...", actorDao.findAll().stream().limit(1).collect(Collectors.toList()),
+                 directorDao.findAll().stream().limit(1).collect(Collectors.toList()), 126);
+    }
+
+    private static void movie( String title, String description, List<Actor> actors, List<Director> directors, int duration){
+        MovieDao movieDao = new MovieDao();
         movieDao.save(Movie.builder()
-                .title("Władca pierścieni")
-                .description("Fajne")
-                .actors(actorDao.findAll())
-                .director(directorDao.findById(2L))
-                .director(directorDao.findById(1L))
-                .duration(360).build());
-        movieDao.save(Movie.builder()
-                .title("Iron Man")
-                .description("No no")
-                .actor(actorDao.findById(1L))
-                .actor(actorDao.findById(3L))
-                .director(directorDao.findById(2L))
-                .director(directorDao.findById(1L))
+                .title(title)
+                .description(description)
+                .actors(actors)
+                .directors(directors)
                 .duration(360).build());
     }
 }

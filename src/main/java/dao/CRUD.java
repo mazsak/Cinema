@@ -5,43 +5,42 @@ import database.FactoryHibernate;
 import javax.persistence.EntityManager;
 import java.lang.reflect.ParameterizedType;
 import java.util.List;
+import java.util.Optional;
 
-public class CRUD<ENTITIES> {
+public class CRUD<ENTITY> {
 
     protected EntityManager em = FactoryHibernate.getEntityManager();
-    private Class<ENTITIES> type;
+    private Class<ENTITY> type;
 
     public CRUD() {
-        this.type = (Class<ENTITIES>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
+        this.type = (Class<ENTITY>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];
     }
 
-    public void save(ENTITIES object) {
+    public void save(ENTITY object) {
         em.getTransaction().begin();
         em.persist(object);
         em.getTransaction().commit();
     }
 
-    public void update(ENTITIES object) {
+    public void update(ENTITY object) {
         em.getTransaction().begin();
         em.merge(object);
         em.getTransaction().commit();
     }
 
-    public List<ENTITIES> findAll() {
+    public List<ENTITY> findAll() {
         em.getTransaction().begin();
-        List<ENTITIES> result = em.createQuery("from " + type.getSimpleName(), type).getResultList();
+        List<ENTITY> result = em.createQuery("from " + type.getSimpleName(), type).getResultList();
         em.getTransaction().commit();
         return result;
     }
 
-    public ENTITIES findById(Long id){
-        em.getTransaction().begin();
-        ENTITIES result = em.createQuery("from " + type.getSimpleName() + " where id=:id", type).setParameter("id",id).getSingleResult();
-        em.getTransaction().commit();
-        return result;
+    public Optional<ENTITY> findById(Long id){
+        ENTITY entity = em.find(type, id);
+        return entity != null ? Optional.of(entity) : Optional.empty();
     }
 
-    public void delete(ENTITIES object){
+    public void delete(ENTITY object){
         em.getTransaction().begin();
         em.remove(object);
         em.getTransaction().commit();

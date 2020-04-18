@@ -34,7 +34,9 @@ public class Movie {
     private Set<Director> directors= new HashSet<>();
 
     @Singular
-    @ManyToMany(cascade = { CascadeType.ALL })
+    @ManyToMany(cascade = { CascadeType.PERSIST,
+            CascadeType.MERGE })
+//    @ManyToMany(fetch = FetchType.EAGER, cascade = { CascadeType.MERGE })
     @JoinTable(
             name = "Movie_Actor",
             joinColumns = { @JoinColumn(name = "movie_id") },
