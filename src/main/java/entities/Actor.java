@@ -1,8 +1,6 @@
 package entities;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -12,6 +10,9 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "ACTOR")
 public class Actor {
@@ -32,6 +33,7 @@ public class Actor {
     @Column(name = "birth_place")
     private String birthPlace;
 
+    @Singular
     @ManyToMany(mappedBy = "actors")
     private Set<Movie> films = new HashSet<>();
 

@@ -1,19 +1,15 @@
-import javax.persistence.EntityManager;
+import dao.MovieDao;
+import entities.Movie;
+import utils.InitDatabase;
+import web_servies.MovieService;
+
+import javax.xml.ws.Endpoint;
 
 public class Main {
     public static void main(String[] args) {
-        EntityManager entityManager = JPAUtil.getEntityManagerFactory().createEntityManager();
-        entityManager.getTransaction().begin();
+        InitDatabase.loadingData();
 
-        // Check database version
-        String sql = "select version()";
-
-        String result = (String) entityManager.createNativeQuery(sql).getSingleResult();
-        System.out.println(result);
-
-        entityManager.getTransaction().commit();
-        entityManager.close();
-
-        JPAUtil.shutdown();
+        Endpoint.publish("http://localhost:9999/cinema", new MovieService());
+        System.out.println("Run and wait...");
     }
 }

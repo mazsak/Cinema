@@ -1,8 +1,6 @@
 package entities;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.persistence.*;
 import java.sql.Blob;
@@ -13,6 +11,9 @@ import java.util.Set;
 @Getter
 @Setter
 @ToString
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Entity
 @Table(name = "MOVIE")
 public class Movie {
@@ -23,6 +24,7 @@ public class Movie {
 
     private String title;
 
+    @Singular
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
             name = "Movie_Director",
@@ -31,14 +33,16 @@ public class Movie {
     )
     private Set<Director> directors= new HashSet<>();
 
+    @Singular
     @ManyToMany(cascade = { CascadeType.ALL })
     @JoinTable(
             name = "Movie_Actor",
             joinColumns = { @JoinColumn(name = "movie_id") },
             inverseJoinColumns = { @JoinColumn(name = "actor_id") }
     )
-    private List<Actor> actors;
+    private Set<Actor> actors;
 
+    @Singular
     @OneToMany(mappedBy = "movie")
     private Set<Screening> screenings;
 
