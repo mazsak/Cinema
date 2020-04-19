@@ -19,13 +19,15 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToMany(mappedBy = "reservation")
+    @Singular
+    @OneToMany(mappedBy = "reservation", fetch = FetchType.LAZY)
     private Set<Screening> screenings;
 
-    @ManyToMany(mappedBy = "reservations")
+    @Singular
+    @ManyToMany(mappedBy = "reservations", fetch = FetchType.LAZY)
     private Set<Seat> seats;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 

@@ -25,7 +25,7 @@ public class Movie {
     private String title;
 
     @Singular
-    @ManyToMany(cascade = { CascadeType.ALL })
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "Movie_Director",
             joinColumns = { @JoinColumn(name = "movie_id") },
@@ -34,17 +34,13 @@ public class Movie {
     private Set<Director> directors= new HashSet<>();
 
     @Singular
-    @ManyToMany(cascade = { CascadeType.ALL })
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "Movie_Actor",
             joinColumns = { @JoinColumn(name = "movie_id") },
             inverseJoinColumns = { @JoinColumn(name = "actor_id") }
     )
     private Set<Actor> actors;
-
-    @Singular
-    @OneToMany(mappedBy = "movie")
-    private Set<Screening> screenings;
 
     private String description;
     private int duration;
