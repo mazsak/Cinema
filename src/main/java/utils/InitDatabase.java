@@ -10,17 +10,17 @@ import java.util.List;
 public class InitDatabase {
 
     public static void loadingData() {
-        user();
-        actor();
-        director();
-        auditorium();
-        movie();
-        seat();
-        screening();
-        reservation();
+        loadUsers();
+        loadActors();
+        loadAuditoriums();
+        loadDirectors();
+        loadMovies();
+        loadScreenings();
+        loadSeats();
+        loadReservations();
     }
 
-    private static void user() {
+    private static void loadUsers() {
         System.out.println("-------------Init user-------------");
         UserDao userDao = new UserDao();
         userDao.save(User.builder()
@@ -40,7 +40,7 @@ public class InitDatabase {
                 .phoneNumber(123123123).build());
     }
 
-    private static void actor() {
+    private static void loadActors() {
         System.out.println("-------------Init actor-------------");
         ActorDao actorDao = new ActorDao();
         actorDao.save(Actor.builder()
@@ -61,7 +61,7 @@ public class InitDatabase {
                 .birthPlace("Krakow").height(174).build());
     }
 
-    private static void director() {
+    private static void loadDirectors() {
         System.out.println("-------------Init director-------------");
         DirectorDao directorDao = new DirectorDao();
         directorDao.save(Director.builder()
@@ -82,7 +82,7 @@ public class InitDatabase {
                 .birthPlace("Krakow").height(174).build());
     }
 
-    private static void auditorium() {
+    private static void loadAuditoriums() {
         System.out.println("-------------Init auditorium-------------");
         AuditoriumDao auditoriumDao = new AuditoriumDao();
         auditoriumDao.save(Auditorium.builder()
@@ -91,29 +91,29 @@ public class InitDatabase {
                 .name("duza").build());
     }
 
-    private static void movie() {
+    private static void loadMovies() {
         System.out.println("-------------Init movie-------------");
         MovieDao movieDao = new MovieDao();
         List<Director> directors = new DirectorDao().findAll();
         List<Actor> actors = new ActorDao().findAll();
         movieDao.save(Movie.builder()
-                .title("Władca pierścieni")
-                .description("Fajne")
+                .title("The Lord Of The Rings: The Fellowship of the ring")
+                .description("The Dark Lord Sauron forges the One Ring in Mount Doom, installing into it a great part of his power to dominate the other Rings, so he might conquer Middle-earth.")
                 .actors(actors)
                 .director(directors.get(2))
                 .director(directors.get(0))
-                .duration(360).build());
+                .duration(178).build());
         movieDao.save(Movie.builder()
                 .title("Iron Man")
-                .description("No no")
+                .description("...")
                 .actor(actors.get(1))
                 .actor(actors.get(2))
                 .director(directors.get(1))
                 .director(directors.get(0))
-                .duration(360).build());
+                .duration(126).build());
     }
 
-    private static void seat() {
+    private static void loadSeats() {
         System.out.println("-------------Init seat-------------");
         SeatDao seatDao = new SeatDao();
         List<Auditorium> auditoriums = new AuditoriumDao().findAll();
@@ -128,7 +128,7 @@ public class InitDatabase {
 
     }
 
-    private static void screening() {
+    private static void loadScreenings() {
         System.out.println("-------------Init screening-------------");
         ScreeningDao screeningDao = new ScreeningDao();
         List<Auditorium> auditoriums= new AuditoriumDao().findAll();
@@ -143,7 +143,7 @@ public class InitDatabase {
                 .date(LocalDateTime.of(2020,4,20,19,0)).build());
     }
 
-    private static void reservation() {
+    private static void loadReservations() {
         System.out.println("-------------Init reservation-------------");
         ReservationDao reservationDao = new ReservationDao();
         List<User> users= new UserDao().findAll();

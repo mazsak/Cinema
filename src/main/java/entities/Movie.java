@@ -42,6 +42,10 @@ public class Movie {
     )
     private Set<Actor> actors;
 
+    @Singular
+    @OneToMany(mappedBy = "movie")
+    private Set<Screening> screenings;
+
     private String description;
     private int duration;
     private Blob image;
