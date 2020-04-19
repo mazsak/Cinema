@@ -19,12 +19,16 @@ public class Reservation {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Singular
-    @OneToMany(mappedBy = "reservation", fetch = FetchType.LAZY)
-    private Set<Screening> screenings;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Screening screening;
 
     @Singular
-    @ManyToMany(mappedBy = "reservations", fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "reservation_seat",
+            joinColumns = { @JoinColumn(name = "reservation_id") },
+            inverseJoinColumns = { @JoinColumn(name = "seat_id") }
+    )
     private Set<Seat> seats;
 
     @ManyToOne(fetch = FetchType.LAZY)

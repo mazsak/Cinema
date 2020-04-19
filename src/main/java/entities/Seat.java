@@ -24,13 +24,9 @@ public class Seat {
     @JoinColumn(name = "auditorium_id", nullable = false)
     private Auditorium auditorium;
 
-    @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(
-            name = "Seat_Reservation",
-            joinColumns = { @JoinColumn(name = "seat_id") },
-            inverseJoinColumns = { @JoinColumn(name = "reservation_id") }
-    )
-    private Set<Reservation> reservations= new HashSet<>();
+    @Singular
+    @ManyToMany(mappedBy = "seats")
+    private Set<Reservation> reservations = new HashSet<>();
 
     private int row;
     private int number;
