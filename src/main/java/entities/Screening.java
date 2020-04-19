@@ -21,8 +21,7 @@ public class Screening {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "movie_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Movie movie;
 
     @ManyToOne(fetch = FetchType.LAZY)

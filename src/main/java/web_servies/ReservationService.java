@@ -25,8 +25,8 @@ public class ReservationService {
     }
 
     @WebMethod
-    public String getReservationByUserId(){
-        return new Gson().toJson(reservationDao.findAll());
+    public String getReservationByUserId(Long idUser){
+        return new Gson().toJson(reservationDao.findByUserId(idUser));
     }
 
 //    @WebMethod

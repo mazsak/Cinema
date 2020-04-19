@@ -43,7 +43,7 @@ public class Movie {
     private Set<Actor> actors;
 
     @Singular
-    @OneToMany(mappedBy = "movie")
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Screening> screenings;
 
     private String description;
