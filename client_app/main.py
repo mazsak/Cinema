@@ -47,6 +47,39 @@ def change_index_movie(id):
 
 @eel.expose
 def create_view_details_movie():
-    print(index_movie)
+    movie = movie_Service.getMovieById(index_movie)
+
+    string_html = '<div class="row" style="background-color: #343a40;">\n' \
+                  '<div style="width: 300px;">\n' \
+                  '<img id="image-movie" src="img/pierscien.jpg" />\n' \
+                  '</div>\n' \
+                  '<div class="col" style="margin-top: 20px">\n' \
+                  '<h1>' + movie['title'] + '</h1>\n' \
+                  '<h5>' + movie['description'] + '</h5>\n' \
+                  '<p style="margin-top: 20px">Duration: ' + str(movie['duration']) + '</p>\n' \
+                  '</div>\n' \
+                  '<div class="col"></div>' \
+                  '</div>\n' \
+                  '<div class="row justify-content-center" style="margin-top: 30px;">\n' \
+                  '<div class="col-5" style="background-color: #343a40; margin-right: 5px;">\n' \
+                  '<h4 style="text-align: center">Actors</h4>\n' \
+                  '<table class="table table-striped table-dark" style="padding: 20px">\n' \
+                  '<tr onclick="goToActor(id)" style="cursor: pointer;">\n' \
+                  '<td>name</td>\n' \
+                  '<td>surname</td>\n' \
+                  '</tr>\n' \
+                  '</table>\n' \
+                  '</div>\n' \
+                  '<div class="col-5" style="background-color: #343a40; margin-left: 5px;">\n' \
+                  '<h4 style="text-align: center">Directors</h4>\n' \
+                  '<table class="table table-striped table-dark" style="padding: 20px">' \
+                  '\n<tr onclick="goToDirector(id)" style="cursor: pointer;">\n' \
+                  '<td>name</td>\n' \
+                  '<td>surname</td>\n' \
+                  '</tr>\n' \
+                  '</table>\n' \
+                  '</div>\n' \
+                  '</div>\n'
+    return string_html
 
 eel.start('index.html')
