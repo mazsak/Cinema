@@ -33,10 +33,6 @@ public class Actor {
     @Column(name = "birth_place")
     private String birthPlace;
 
-    @Singular
-    @ManyToMany(mappedBy = "actors")
-    private Set<Movie> films = new HashSet<>();
-
     // in centimeters
     private int height;
 

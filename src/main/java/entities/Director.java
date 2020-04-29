@@ -33,8 +33,6 @@ public class Director {
     @Column(name = "birth_place")
     private String birthPlace;
 
-    @ManyToMany(mappedBy = "directors")
-    private Set<Movie> films = new HashSet<>();
 
     // in centimeters
     private int height;
