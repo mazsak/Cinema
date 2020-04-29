@@ -1,6 +1,5 @@
 package web_servies;
 
-import com.google.gson.Gson;
 import dao.MovieDao;
 import entities.Movie;
 
@@ -20,7 +19,22 @@ public class MovieService {
     }
 
     @WebMethod
-    public String getAllMovie(){
-        return new Gson().toJson(movieDao.findAll());
+    public List<Movie> getAllMovie() {
+        List<Movie> movies = movieDao.findAll();
+        for (Movie movie : movies) {
+            movie.setScreenings(null);
+            movie.setDirectors(null);
+            movie.setActors(null);
+        }
+        return movies;
+    }
+
+    @WebMethod
+    public Movie getMovieById(long id) {
+        Movie movie = movieDao.findById(id).get();
+        movie.setScreenings(null);
+        movie.setDirectors(null);
+        movie.setActors(null);
+        return movie;
     }
 }

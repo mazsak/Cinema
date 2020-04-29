@@ -48,5 +48,5 @@ public class Movie {
 
     private String description;
     private int duration;
-    private Blob image;
+//    private Blob image;
 }
