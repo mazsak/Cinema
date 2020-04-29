@@ -1,12 +1,15 @@
+import io
 from typing import List
 
 import eel
 from zeep import Client
+from PIL import Image
 import json
 
 index_movie = None
 
 movie_Service = Client('http://localhost:9999/cinema/movieservice?wsdl').service
+image_Service = Client('http://localhost:9999/cinema2/imageservice?wsdl').service
 
 eel.init('pages')
 
@@ -16,13 +19,18 @@ def create_view_list_movies():
 
     string_html = '<div class="row">\n'
     for index, movie in enumerate(movies):
-        if index %5 == 0:
-            string_html += '</div>\n<div class="row">\n'
+        if movie['imagePath'] == None:
+            path_image = '/img/not-found.jpg'
+        else:
+            bytes = image_Service.getImage(movie['imagePath'])
+            image = Image.open(io.BytesIO(bytes))
+            image.save('pages/img/'+str(movie['id'])+'.jpg')
+            path_image='img/'+str(movie['id'])+'.jpg'
         string_html += '<div class="col">\n' \
                          '<div class="flip-card" onclick="goToMovie(' + str(movie['id']) + ')">\n' \
                          '<div class="flip-card-inner">\n' \
                          '<div class="flip-card-front">\n' \
-                         '<img src="img/iron.jpg" style="width:230px;height:350px; border-radius: 10px 10px 0 0;">\n' \
+                         '<img src="'+path_image+'" style="width:230px;height:350px; border-radius: 10px 10px 0 0;">\n' \
                          '</div>\n' \
                          '<div class="flip-card-back">\n' \
                          '<h3>Duration: </h3>\n' \
@@ -48,10 +56,14 @@ def change_index_movie(id):
 @eel.expose
 def create_view_details_movie():
     movie = movie_Service.getMovieById(index_movie)
+    if movie['imagePath'] == None:
+        path_image = '/img/not-found.jpg'
+    else:
+        path_image = 'img/' + str(movie['id']) + '.jpg'
 
     string_html = '<div class="row" style="background-color: #343a40;">\n' \
                   '<div style="width: 300px;">\n' \
-                  '<img id="image-movie" src="img/pierscien.jpg" />\n' \
+                  '<img id="image-movie" src="'+path_image+'" />\n' \
                   '</div>\n' \
                   '<div class="col" style="margin-top: 20px">\n' \
                   '<h1>' + movie['title'] + '</h1>\n' \

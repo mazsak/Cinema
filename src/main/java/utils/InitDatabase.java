@@ -102,7 +102,8 @@ public class InitDatabase {
                 .actors(actors)
                 .director(directors.get(2))
                 .director(directors.get(0))
-                .duration(178).build());
+                .duration(178)
+                .imagePath("src/main/java/img/lotr.jpg").build());
         movieDao.save(Movie.builder()
                 .title("Iron Man")
                 .description("On a weapons demo in Afghanistan, Tony's convoy is attacked and he is taken hostage by militants. Because of shrapnel in his body, a fellow hostage operates on him and puts a reactor in his chest to keep him alive.")
@@ -110,7 +111,8 @@ public class InitDatabase {
                 .actor(actors.get(2))
                 .director(directors.get(1))
                 .director(directors.get(0))
-                .duration(126).build());
+                .duration(126)
+                .imagePath("src/main/java/img/iron.jpg").build());
         movieDao.save(Movie.builder()
                 .title("Joker")
                 .description("In Gotham City, mentally troubled comedian Arthur Fleck is disregarded and mistreated by society...")
@@ -118,7 +120,8 @@ public class InitDatabase {
                 .actor(actors.get(2))
                 .director(directors.get(1))
                 .director(directors.get(0))
-                .duration(122).build());
+                .duration(122)
+                .imagePath("src/main/java/img/joker.jpg").build());
         movieDao.save(Movie.builder()
                 .title("The Wolf of Wall Street")
                 .description("Jordan Belfort is a Long Island penny stockbroker who served 22 months in prison for defrauding investors in a massive 1990s securities scam that involved widespread corruption on Wall Street")
@@ -126,7 +129,8 @@ public class InitDatabase {
                 .actor(actors.get(2))
                 .director(directors.get(1))
                 .director(directors.get(0))
-                .duration(180).build());
+                .duration(180)
+                .imagePath("src/main/java/img/wolf.jpg").build());
         movieDao.save(Movie.builder()
                 .title("Forrest Gump")
                 .description("Forrest Gump is a simple man with a low I.Q. but good intentions. He is running through childhood with his best and only friend Jenny...")
@@ -134,7 +138,8 @@ public class InitDatabase {
                 .actor(actors.get(2))
                 .director(directors.get(1))
                 .director(directors.get(0))
-                .duration(141).build());
+                .duration(141)
+                .imagePath("src/main/java/img/run.jpg").build());
         movieDao.save(Movie.builder()
                 .title("Toy Story")
                 .description("Toy Story is about the 'secret life of toys' when people are not around. When Buzz Lightyear, a space-ranger, takes Woody's place as Andy's favorite toy...")
@@ -142,7 +147,8 @@ public class InitDatabase {
                 .actor(actors.get(2))
                 .director(directors.get(1))
                 .director(directors.get(0))
-                .duration(76).build());
+                .duration(76)
+                .imagePath("src/main/java/img/toy.jpg").build());
     }
 
     private static void loadSeats() {

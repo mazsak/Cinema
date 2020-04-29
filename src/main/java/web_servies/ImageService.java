@@ -16,7 +16,7 @@ public class ImageService {
 
     public Image getImage(String path) {
         try {
-            File image = new File("C:\\Users\\adam\\Desktop\\lotr_memes\\" + path);
+            File image = new File(path);
             return ImageIO.read(image);
         } catch (IOException e) {
             e.printStackTrace();
