@@ -105,12 +105,44 @@ public class InitDatabase {
                 .duration(178).build());
         movieDao.save(Movie.builder()
                 .title("Iron Man")
-                .description("...")
+                .description("On a weapons demo in Afghanistan, Tony's convoy is attacked and he is taken hostage by militants. Because of shrapnel in his body, a fellow hostage operates on him and puts a reactor in his chest to keep him alive.")
                 .actor(actors.get(1))
                 .actor(actors.get(2))
                 .director(directors.get(1))
                 .director(directors.get(0))
                 .duration(126).build());
+        movieDao.save(Movie.builder()
+                .title("Joker")
+                .description("In Gotham City, mentally troubled comedian Arthur Fleck is disregarded and mistreated by society...")
+                .actor(actors.get(1))
+                .actor(actors.get(2))
+                .director(directors.get(1))
+                .director(directors.get(0))
+                .duration(122).build());
+        movieDao.save(Movie.builder()
+                .title("The Wolf of Wall Street")
+                .description("Jordan Belfort is a Long Island penny stockbroker who served 22 months in prison for defrauding investors in a massive 1990s securities scam that involved widespread corruption on Wall Street")
+                .actor(actors.get(1))
+                .actor(actors.get(2))
+                .director(directors.get(1))
+                .director(directors.get(0))
+                .duration(180).build());
+        movieDao.save(Movie.builder()
+                .title("Forrest Gump")
+                .description("Forrest Gump is a simple man with a low I.Q. but good intentions. He is running through childhood with his best and only friend Jenny...")
+                .actor(actors.get(1))
+                .actor(actors.get(2))
+                .director(directors.get(1))
+                .director(directors.get(0))
+                .duration(141).build());
+        movieDao.save(Movie.builder()
+                .title("Toy Story")
+                .description("Toy Story is about the 'secret life of toys' when people are not around. When Buzz Lightyear, a space-ranger, takes Woody's place as Andy's favorite toy...")
+                .actor(actors.get(1))
+                .actor(actors.get(2))
+                .director(directors.get(1))
+                .director(directors.get(0))
+                .duration(76).build());
     }
 
     private static void loadSeats() {
