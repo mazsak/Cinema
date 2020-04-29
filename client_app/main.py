@@ -8,6 +8,7 @@ index_movie = None
 
 movie_Service = Client('http://localhost:9999/cinema/movieservice?wsdl').service
 image_Service = Client('http://localhost:9999/cinema2/imageservice?wsdl').service
+screening_Service = Client('http://localhost:9999/cinema3/screeningService?wsdl').service
 
 eel.init('pages')
 

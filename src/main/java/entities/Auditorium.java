@@ -19,11 +19,5 @@ public class Auditorium {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToMany(mappedBy = "auditorium")
-    private Set<Seat> seats;
-
-    @OneToMany(mappedBy = "auditorium")
-    private Set<Screening> screenings;
-
     private String name;
 }

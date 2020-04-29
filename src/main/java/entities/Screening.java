@@ -3,9 +3,6 @@ package entities;
 import lombok.*;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -28,9 +25,9 @@ public class Screening {
     @JoinColumn(name = "auditorium_id", nullable = false)
     private Auditorium auditorium;
 
-    @Singular
-    @OneToMany(mappedBy = "screening")
-    private Set<Reservation> reservations;
-
-    private LocalDateTime date;
+    private int year;
+    private int month;
+    private int day;
+    private String hour;
+    private String minutes;
 }

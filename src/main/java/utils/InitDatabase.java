@@ -4,7 +4,6 @@ import dao.*;
 import entities.*;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 public class InitDatabase {
@@ -174,11 +173,27 @@ public class InitDatabase {
         screeningDao.save(Screening.builder()
                 .auditorium(auditoriums.get(0))
                 .movie(movies.get(0))
-                .date(LocalDateTime.of(2020,4,20,19,0)).build());
+                .year(2020)
+                .month(4)
+                .day(20)
+                .hour("19")
+                .minutes("00").build());
         screeningDao.save(Screening.builder()
                 .auditorium(auditoriums.get(1))
                 .movie(movies.get(1))
-                .date(LocalDateTime.of(2020,4,20,19,0)).build());
+                .year(2020)
+                .month(4)
+                .day(20)
+                .hour("19")
+                .minutes("0").build());
+        screeningDao.save(Screening.builder()
+                .auditorium(auditoriums.get(1))
+                .movie(movies.get(2))
+                .year(2020)
+                .month(4)
+                .day(21)
+                .hour("16")
+                .minutes("0").build());
     }
 
     private static void loadReservations() {

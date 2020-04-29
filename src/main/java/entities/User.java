@@ -3,8 +3,6 @@ package entities;
 import lombok.*;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
 
 @Getter
 @Setter
@@ -26,7 +24,4 @@ public class User {
 
     @Column(name = "phone_number")
     private long phoneNumber;
-
-    @OneToMany(mappedBy = "user")
-    private Set<Reservation> reservations = new HashSet<>();
 }
