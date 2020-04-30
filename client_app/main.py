@@ -81,24 +81,31 @@ def create_view_details_movie():
                                                                                                            '<div class="row justify-content-center" style="margin-top: 30px;">\n' \
                                                                                                            '<div class="col-5" style="background-color: #343a40; margin-right: 5px;">\n' \
                                                                                                            '<h4 style="text-align: center">Actors</h4>\n' \
-                                                                                                           '<table class="table table-striped table-dark" style="padding: 20px">\n' \
-                                                                                                           '<tr onclick="goToActor(id)" style="cursor: pointer;">\n' \
-                                                                                                           '<td>name</td>\n' \
-                                                                                                           '<td>surname</td>\n' \
-                                                                                                           '</tr>\n' \
-                                                                                                           '</table>\n' \
-                                                                                                           '</div>\n' \
-                                                                                                           '<div class="col-5" style="background-color: #343a40; margin-left: 5px;">\n' \
-                                                                                                           '<h4 style="text-align: center">Directors</h4>\n' \
-                                                                                                           '<table class="table table-striped table-dark" style="padding: 20px">' \
-                                                                                                           '\n<tr onclick="goToDirector(id)" style="cursor: pointer;">\n' \
-                                                                                                           '<td>name</td>\n' \
-                                                                                                           '<td>surname</td>\n' \
-                                                                                                           '</tr>\n' \
-                                                                                                           '</table>\n' \
-                                                                                                           '</div>\n' \
-                                                                                                           '</div>\n'
+                                                                                                           '<table class="table table-striped table-dark" style="padding: 20px">\n'
+    for actor in movie['actors']:
+        string_html += '<tr onclick="goToActor(' + str(actor['id']) + ')" style="cursor: pointer;">\n' \
+                                                                      '<td>' + actor['firstName'] + '</td>\n' \
+                                                                                                    '<td>' + actor[
+                           'secondName'] + '</td>\n' \
+                                           '</tr>\n'
+    string_html += '</table>\n' \
+                   '</div>\n' \
+                   '<div class="col-5" style="background-color: #343a40; margin-left: 5px;">\n' \
+                   '<h4 style="text-align: center">Directors</h4>\n' \
+                   '<table class="table table-striped table-dark" style="padding: 20px">\n'
+    for director in movie['directors']:
+        string_html += '<tr onclick="goToDirector(' + str(director['id']) + ')" style="cursor: pointer;">\n<td>' + \
+                       director['firstName'] + '</td>\n' \
+                                               '<td>' + director['firstName'] + '</td>\n' \
+                                                                                '</tr>\n'
+    string_html += '</table>\n' \
+                   '</div>\n' \
+                   '</div>\n'
     return string_html
 
+@eel.expose
+def create_view_repertoire(day, month, year):
+    screenings = screening_Service.getScreeningsByDate(year, month, day)
+    return '<h1>jestem</h1>'
 
 eel.start('index.html')

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <script type="text/javascript" src="/eel.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="css/styles.css" media="screen"/>
+</head>
+<body>
+<div class="fixed-top my-nav">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="index.html">Cinema</a>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav">
+                <li class="nav-item active">
+                    <a class="nav-link" href="repertoire.html">Repertoire</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="list_fims.html">Films</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Pricing</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>
+<div id="container">
+    <div id="container-cards-date" class="row justify-content-center" style="width: 100%">
+    </div>
+    <div id="screenings" style="margin: 20px 5% 50px;">
+        <div class="row" style="background-color: #343a40;">
+            <div style="width: 300px;">
+                <img id="image-movie" src="img/not-found.jpg">
+            </div>
+            <div class="col" style="margin-top: 20px">
+                <h1>Title</h1>
+                <h5>Description</h5>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script>
+    function createDate() {
+        var monthName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+        var date = new Date();
+        // getScreening(date.getDate(), date.getMonth(), date.getFullYear())
+        var stringHTML = "";
+        for (var i = 0; i < 10; i++) {
+            var day = date.getDate();
+            var month = date.getMonth();
+            var year = date.getFullYear();
+            stringHTML += "<div class=\"card-date\" onclick=\"getScreening(" + day + "," + month + "," + year + ")\">\n" +
+                "            <h6 style=\"color: black; text-align: center;  font-size: 48px; padding-top: 12px\">" + day + "</h6>\n" +
+                "            <h6 style=\"color: black; text-align: center; font-weight: bold; font-size: 24px;\">" + monthName[month - 1] + "</h6>\n" +
+                "        </div>";
+            date.setDate(date.getDate() + 1);
+        }
+        document.getElementById("container-cards-date").innerHTML = stringHTML;
+    }
+
+    createDate();
+
+    function getScreening(day, month, year) {
+        eel.create_view_repertoire(day, month, year)(showScreening);
+    }
+
+    function showScreening(stringHTML) {
+        console.log(stringHTML);
+        document.getElementById("screenings").innerHTML = stringHTML;
+    }
+
+</script>
+</html>

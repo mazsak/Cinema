@@ -11,7 +11,6 @@ body {
 
 #container {
     margin: 100px 2% 50px;
-    height: 1000px;
 }
 
 .my-text {
@@ -27,8 +26,26 @@ body {
     margin: 10px;
 }
 
-.flip-card {
+.card-date {
+    width: 75px;
+    height: 105px;
+    background-color: white;
     margin: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.card-date:hover {
+    width: 70px;
+    height: 105px;
+    background-color: #e6e6e6;
+    margin: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+}
+
+.flip-card {
+    margin: 10px 10px 80px;
     width: 230px;
     height: 350px;
     perspective: 1000px;
