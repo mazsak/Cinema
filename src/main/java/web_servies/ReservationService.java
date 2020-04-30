@@ -55,6 +55,13 @@ public class ReservationService {
 
     @WebMethod
     public void cancelReservation(Long reservationId) {
-        reservationDao.findById(reservationId).ifPresent(reservation -> reservationDao.delete(reservation));
+        reservationDao.deleteById(reservationId);
+    }
+
+    public void updateSeats(Long reservationId, List<Long> seatIds) {
+        Reservation reservation = reservationDao.findById(reservationId).orElseThrow(IllegalArgumentException::new);
+        Set<Seat> seats = seatIds.stream().map(seatId -> seatDao.findById(seatId).orElse(null)).filter(Objects::nonNull).collect(Collectors.toSet());
+        reservation.setSeats(seats);
+        reservationDao.update(reservation);
     }
 }
