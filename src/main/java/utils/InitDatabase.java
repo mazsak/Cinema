@@ -168,11 +168,27 @@ public class InitDatabase {
     private static void loadScreenings() {
         System.out.println("-------------Init screening-------------");
         ScreeningDao screeningDao = new ScreeningDao();
-        List<Auditorium> auditoriums= new AuditoriumDao().findAll();
-        List<Movie> movies= new MovieDao().findAll();
+        List<Auditorium> auditoriums = new AuditoriumDao().findAll();
+        List<Movie> movies = new MovieDao().findAll();
         screeningDao.save(Screening.builder()
                 .auditorium(auditoriums.get(0))
                 .movie(movies.get(0))
+                .year(2020)
+                .month(3)
+                .day(30)
+                .hour("19")
+                .minutes("00").build());
+        screeningDao.save(Screening.builder()
+                .auditorium(auditoriums.get(0))
+                .movie(movies.get(0))
+                .year(2020)
+                .month(3)
+                .day(30)
+                .hour("15")
+                .minutes("00").build());
+        screeningDao.save(Screening.builder()
+                .auditorium(auditoriums.get(1))
+                .movie(movies.get(1))
                 .year(2020)
                 .month(3)
                 .day(30)
@@ -185,7 +201,7 @@ public class InitDatabase {
                 .month(4)
                 .day(1)
                 .hour("19")
-                .minutes("0").build());
+                .minutes("00").build());
         screeningDao.save(Screening.builder()
                 .auditorium(auditoriums.get(1))
                 .movie(movies.get(2))
@@ -193,7 +209,7 @@ public class InitDatabase {
                 .month(4)
                 .day(2)
                 .hour("16")
-                .minutes("0").build());
+                .minutes("00").build());
     }
 
     private static void loadReservations() {
