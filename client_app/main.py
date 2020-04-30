@@ -106,6 +106,21 @@ def create_view_details_movie():
 @eel.expose
 def create_view_repertoire(day, month, year):
     screenings = screening_Service.getScreeningsByDate(year, month, day)
+    movies_with_screenings = {}
+    for screening in screenings:
+        if movies_with_screenings.get(screening['auditorium']['id'], None) is None:
+            movies_with_screenings[screening['auditorium']['id']] = {}
+        if movies_with_screenings[screening['auditorium']['id']].get(screening['movie']['id'], None) is None:
+            movies_with_screenings[screening['auditorium']['id']][screening['movie']['id']] = []
+        movies_with_screenings[screening['auditorium']['id']][screening['movie']['id']].append(screening)
+
+    for auditorium in movies_with_screenings:
+        for movie in auditorium:
+            for screening in movie:
+                pass
+
+
+
     return '<h1>jestem</h1>'
 
 eel.start('index.html')
