@@ -24,10 +24,6 @@ public class Seat {
     @JoinColumn(name = "auditorium_id", nullable = false)
     private Auditorium auditorium;
 
-    @Singular
-    @ManyToMany(mappedBy = "seats")
-    private Set<Reservation> reservations = new HashSet<>();
-
     private int row;
     private int number;
 
