@@ -20,10 +20,6 @@ public class Seat {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "auditorium_id", nullable = false)
-    private Auditorium auditorium;
-
     private int row;
     private int number;
 

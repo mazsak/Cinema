@@ -4,18 +4,21 @@ import dao.*;
 import entities.*;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class InitDatabase {
 
     public static void loadingData() {
         loadUsers();
         loadActors();
-        loadAuditoriums();
         loadDirectors();
         loadMovies();
+        loadAuditoriumsAndSeats();
         loadScreenings();
-        loadSeats();
         loadReservations();
     }
 
@@ -81,13 +84,34 @@ public class InitDatabase {
                 .birthPlace("Krakow").height(174).build());
     }
 
-    private static void loadAuditoriums() {
+    private static void loadAuditoriumsAndSeats() {
         System.out.println("-------------Init auditorium-------------");
         AuditoriumDao auditoriumDao = new AuditoriumDao();
         auditoriumDao.save(Auditorium.builder()
-                .name("mala").build());
+                .name("mala")
+                .row(10)
+                .number(10)
+                .seats(createSeats(8, 8)).build());
         auditoriumDao.save(Auditorium.builder()
-                .name("duza").build());
+                .name("duza")
+                .row(10)
+                .number(10)
+                .seats(createSeats(10, 10)).build());
+    }
+
+    private static Set<Seat> createSeats(int rows, int numbers){
+        SeatDao seatDao = new SeatDao();
+        Set<Seat> seats = new HashSet<>();
+        for(int i=0; i<rows; i++){
+            for(int j=0; j<numbers; j++){
+                Seat seat = Seat.builder()
+                        .row(i)
+                        .number(j).build();
+                seats.add(seat);
+            }
+        }
+        seats.forEach(seatDao::save);
+        return seats;
     }
 
     private static void loadMovies() {
@@ -148,21 +172,6 @@ public class InitDatabase {
                 .director(directors.get(0))
                 .duration(76)
                 .imagePath("src/main/java/img/toy.jpg").build());
-    }
-
-    private static void loadSeats() {
-        System.out.println("-------------Init seat-------------");
-        SeatDao seatDao = new SeatDao();
-        List<Auditorium> auditoriums = new AuditoriumDao().findAll();
-        for (Auditorium auditorium : auditoriums)
-            for (int i = 1; i < 11; i++)
-                for (int y = 1; y < 11; y++)
-                    seatDao.save(Seat.builder()
-                            .number(i)
-                            .row(y)
-                            .auditorium(auditorium).build());
-
-
     }
 
     private static void loadScreenings() {

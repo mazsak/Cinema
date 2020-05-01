@@ -2,10 +2,8 @@ package web_servies;
 
 import com.google.gson.Gson;
 import dao.*;
-import entities.Reservation;
-import entities.Screening;
-import entities.Seat;
-import entities.User;
+import entities.*;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
@@ -25,12 +23,14 @@ public class ReservationService {
     private ScreeningDao screeningDao;
     private SeatDao seatDao;
     private UserDao userDao;
+    private AuditoriumDao auditoriumDao;
 
     public ReservationService() {
         reservationDao = new ReservationDao();
         screeningDao = new ScreeningDao();
         seatDao = new SeatDao();
         userDao = new UserDao();
+        auditoriumDao = new AuditoriumDao();
     }
 
     @WebMethod
@@ -74,6 +74,19 @@ public class ReservationService {
         Message message = createReservationMessage(session, mailTo);
         Transport.send(message);
     }
+
+    @WebMethod
+    public boolean[][] findReservedSeatsByScreeningId(Long screeningId) throws NotFound {
+        Screening screening = screeningDao.findById(screeningId).orElseThrow(NotFound::new);
+        Auditorium auditorium = screening.getAuditorium();
+        boolean[][] seats = new boolean[auditorium.getRow()][auditorium.getNumber()];
+        List<Set<Seat>> reservedSeatsForScreening = seatDao.findReservedSeats(screeningId);
+        reservedSeatsForScreening
+                .forEach(seatSet -> seatSet
+                        .forEach(seat -> seats[seat.getRow()][seat.getNumber()]=true));
+        return seats;
+    }
+
 
     private Message createReservationMessage(Session session, String emailTo) throws MessagingException, IOException {
         Message message = new MimeMessage(session);

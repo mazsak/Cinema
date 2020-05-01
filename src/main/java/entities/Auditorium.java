@@ -19,5 +19,11 @@ public class Auditorium {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    @OneToMany
+    @JoinColumn(name = "auditorium_id")
+    private Set<Seat> seats;
+    private int row;
+    private int number;
+
     private String name;
 }
