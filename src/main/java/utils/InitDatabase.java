@@ -231,6 +231,7 @@ public class InitDatabase {
                 .reserved(true)
                 .screening(screenings.get(0))
                 .seat(seats.get(0))
+                .seat(seats.get(1))
                 .user(users.get(0)).build());
         reservationDao.save(Reservation.builder()
                 .reserved(true)

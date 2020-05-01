@@ -1,6 +1,8 @@
 package web_servies;
 
 import com.google.gson.Gson;
+import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.PdfWriter;
 import dao.*;
 import entities.*;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
@@ -11,8 +13,10 @@ import javax.jws.soap.SOAPBinding;
 import javax.mail.*;
 import javax.mail.internet.*;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.*;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @WebService(serviceName = "reservationservice")
@@ -68,10 +72,10 @@ public class ReservationService {
     }
 
     @WebMethod
-    public void sendEmail(String mailTo) throws MessagingException, IOException {
+    public void sendEmail(String mailTo, Long reservationId) throws MessagingException, IOException, DocumentException, NotFound {
         Properties prop = getProperties();
         Session session = getSession(prop);
-        Message message = createReservationMessage(session, mailTo);
+        Message message = createReservationMessage(session, mailTo, reservationId);
         Transport.send(message);
     }
 
@@ -88,7 +92,7 @@ public class ReservationService {
     }
 
 
-    private Message createReservationMessage(Session session, String emailTo) throws MessagingException, IOException {
+    private Message createReservationMessage(Session session, String emailTo, Long reservationId) throws MessagingException, IOException, DocumentException, NotFound {
         Message message = new MimeMessage(session);
         message.setFrom(new InternetAddress("cinema.rsi.project@gmail.com"));
         message.setRecipients(
@@ -104,10 +108,39 @@ public class ReservationService {
         multipart.addBodyPart(mimeBodyPart);
 
         message.setContent(multipart);
-        // todo: creating PDF
-//        MimeBodyPart attachmentBodyPart = new MimeBodyPart();
-//        attachmentBodyPart.attachFile(file);
-//        multipart.addBodyPart(attachmentBodyPart);
+
+        Document document = new Document();
+        PdfWriter.getInstance(document, new FileOutputStream("reservation.pdf"));
+
+        document.open();
+        Reservation reservation = reservationDao.findById(reservationId).orElse(null);
+        if (reservation==null){
+            throw new NotFound();
+        }
+        Font font = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);
+        Screening screening = reservation.getScreening();
+        Chunk header = new Chunk("Reservation details: ", font);
+        Chunk filmDetails = new Chunk("Reservation for: " +
+                screening.getMovie().getTitle() +
+                " on: " + screening.getDay() +"." + screening.getMonth() + "." + screening.getYear() + ", at: " +
+                screening.getHour() + ":" +screening.getMinutes(), font);
+        Chunk auditorium = new Chunk("At auditorium: " + screening.getAuditorium().getName(), font);
+        final String[] reservationDetails = {"Seats: \n"};
+        reservation.getSeats()
+                .forEach(seat -> {
+                    reservationDetails[0] = reservationDetails[0].concat("row: " + seat.getRow() + ", number: " + seat.getNumber() +"\n");
+                });
+        Chunk details = new Chunk(reservationDetails[0], font);
+        document.add(new Paragraph(header));
+        document.add(new Paragraph(filmDetails));
+        document.add(new Paragraph(auditorium));
+        document.add(new Paragraph(details));
+
+        document.close();
+
+        MimeBodyPart attachmentBodyPart = new MimeBodyPart();
+        attachmentBodyPart.attachFile(new File("reservation.pdf"));
+        multipart.addBodyPart(attachmentBodyPart);
         return message;
     }
 
