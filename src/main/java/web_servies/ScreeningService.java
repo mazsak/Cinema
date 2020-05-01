@@ -27,4 +27,9 @@ public class ScreeningService {
     public List<Screening> getScreeningsByDate(int year, int month, int day) {
         return screeningDao.findByDate(year, month, day);
     }
+
+    @WebMethod
+    public Screening getScreeningById(Long id) {
+        return screeningDao.findById(id).get();
+    }
 }

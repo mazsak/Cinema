@@ -4,11 +4,9 @@ import dao.*;
 import entities.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class InitDatabase {
 
@@ -89,8 +87,8 @@ public class InitDatabase {
         AuditoriumDao auditoriumDao = new AuditoriumDao();
         auditoriumDao.save(Auditorium.builder()
                 .name("mala")
-                .row(10)
-                .number(10)
+                .row(8)
+                .number(8)
                 .seats(createSeats(8, 8)).build());
         auditoriumDao.save(Auditorium.builder()
                 .name("duza")
@@ -183,39 +181,39 @@ public class InitDatabase {
                 .auditorium(auditoriums.get(0))
                 .movie(movies.get(0))
                 .year(2020)
-                .month(3)
-                .day(30)
+                .month(5)
+                .day(1)
                 .hour("19")
                 .minutes("00").build());
         screeningDao.save(Screening.builder()
                 .auditorium(auditoriums.get(0))
                 .movie(movies.get(0))
                 .year(2020)
-                .month(3)
-                .day(30)
+                .month(5)
+                .day(1)
                 .hour("15")
                 .minutes("00").build());
         screeningDao.save(Screening.builder()
                 .auditorium(auditoriums.get(1))
                 .movie(movies.get(1))
                 .year(2020)
-                .month(3)
-                .day(30)
+                .month(5)
+                .day(1)
                 .hour("19")
                 .minutes("00").build());
         screeningDao.save(Screening.builder()
                 .auditorium(auditoriums.get(1))
                 .movie(movies.get(1))
                 .year(2020)
-                .month(4)
-                .day(1)
+                .month(5)
+                .day(3)
                 .hour("19")
                 .minutes("00").build());
         screeningDao.save(Screening.builder()
                 .auditorium(auditoriums.get(1))
                 .movie(movies.get(2))
                 .year(2020)
-                .month(4)
+                .month(5)
                 .day(2)
                 .hour("16")
                 .minutes("00").build());

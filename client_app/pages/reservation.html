@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Cinema</title>
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
@@ -33,45 +34,40 @@
     </nav>
 </div>
 <div id="container">
-    <div id="container-cards-date" class="row justify-content-center" style="width: 100%">
+    <h3 style="text-align: center">Reservation</h3>
+    <div id="seat-reserved" hidden class="alert alert-danger" role="alert">
+        Seat is reserved!
     </div>
-    <div id="screenings">
+    <div id="reservation" class="row justify-content-center">
+
     </div>
+    <button onclick="goToConfirmation()">Book now</button>
 </div>
 </body>
 <script>
-    function createDate() {
-        var monthName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
-        var date = new Date();
-        getScreening(date.getDate(), date.getMonth() + 1, date.getFullYear())
-        var stringHTML = "";
-        for (var i = 0; i < 10; i++) {
-            var day = date.getDate();
-            var month = date.getMonth();
-            var year = date.getFullYear();
-            stringHTML += "<div class=\"card-date\" onclick=\"getScreening(" + day + "," + (month + 1) + "," + year + ")\">\n" +
-                "            <h6 style=\"color: black; text-align: center;  font-size: 48px; padding-top: 12px\">" + day + "</h6>\n" +
-                "            <h6 style=\"color: black; text-align: center; font-weight: bold; font-size: 24px;\">" + monthName[month] + "</h6>\n" +
-                "        </div>";
-            date.setDate(date.getDate() + 1);
+
+    function loadSeats(stringHTML) {
+        document.getElementById("reservation").innerHTML = stringHTML;
+    }
+
+    eel.create_view_reservation()(loadSeats);
+
+    function reservate(id) {
+        document.getElementById("seat-reserved").hidden = true;
+        var seat = document.getElementById(id);
+        if (seat.style.backgroundColor == "white") {
+            seat.style.backgroundColor = "blue";
+            seat.style.color = "white";
+        } else if (seat.style.backgroundColor == "blue") {
+            seat.style.backgroundColor = "white";
+            seat.style.color = "black";
+        } else {
+            document.getElementById("seat-reserved").hidden = false;
         }
-        document.getElementById("container-cards-date").innerHTML = stringHTML;
     }
 
-    createDate();
-
-    function getScreening(day, month, year) {
-        eel.create_view_repertoire(day, month, year)(showScreening);
-    }
-
-    function showScreening(stringHTML) {
-        document.getElementById("screenings").innerHTML = stringHTML;
-    }
-
-    function goToReservation(id) {
-        eel.change_index_screening(id);
+    function goToConfirmation() {
         window.location.href = "reservation.html";
     }
-
 </script>
 </html>

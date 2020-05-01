@@ -44,6 +44,40 @@ body {
     cursor: pointer;
 }
 
+.card-time {
+    background-color: white;
+    margin: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: black;
+    text-align: center;
+    padding-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.card-time:hover {
+    background-color: #e6e6e6;
+    margin: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    color: black;
+    text-align: center;
+    padding-top: 5px;
+    padding-left: 3px;
+    padding-right: 3px;
+}
+
+.card-seat {
+    margin: 5px;
+    width: 30px;
+    height: 30px;
+    padding-top: 5px;
+    float: left;
+    text-align: center;
+    border-radius: 10px;
+}
+
 .flip-card {
     margin: 10px 10px 80px;
     width: 230px;
