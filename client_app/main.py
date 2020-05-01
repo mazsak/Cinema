@@ -7,11 +7,13 @@ from zeep import Client
 index_movie = None
 index_screening = None
 indexs_seats = []
+user= None
 
 movie_Service = Client('http://localhost:9999/cinema/movieservice?wsdl').service
 image_Service = Client('http://localhost:9999/cinema2/imageservice?wsdl').service
-screening_Service = Client('http://localhost:9999/cinema3/screeningService?wsdl').service
-reservation_Service = Client('http://localhost:9999/cinema4/screeningService?wsdl').service
+screening_Service = Client('http://localhost:9999/cinema3/screeningservice?wsdl').service
+reservation_Service = Client('http://localhost:9999/cinema4/reservationservice?wsdl').service
+user_Service = Client('http://localhost:9999/cinema5/userservice?wsdl').service
 
 eel.init('pages')
 
@@ -299,4 +301,10 @@ def remove_index_seats(id):
 def reserve():
     reservation_Service.reserve(index_screening, indexs_seats, 1)
 
-eel.start('index.html')
+@eel.expose
+def login(login, password):
+    global user
+    user = user_Service.findUserByUsernameAndPassword(login, password)
+    print(user)
+
+eel.start('login.html')
