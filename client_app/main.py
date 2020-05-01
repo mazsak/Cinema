@@ -6,6 +6,7 @@ from zeep import Client
 
 index_movie = None
 index_screening = None
+indexs_seats = []
 
 movie_Service = Client('http://localhost:9999/cinema/movieservice?wsdl').service
 image_Service = Client('http://localhost:9999/cinema2/imageservice?wsdl').service
@@ -221,6 +222,8 @@ def change_index_screening(id):
 
 @eel.expose
 def create_view_reservation():
+    global indexs_seats
+    indexs_seats = []
     screening = screening_Service.getScreeningById(index_screening)
     seats = reservation_Service.findReservedSeatsByScreeningId(index_screening)
     string_html = '<div id="seats" class="col-5" style="background-color: #343a40; margin: 10px; padding: 20px">\n' \
@@ -283,7 +286,21 @@ def create_view_reservation():
                    '<div>Time: ' \
                    + screening['hour'] + ':' + screening['minutes'] + \
                    '</div>\n' \
+                   '<button id="book-now" type="button" class="btn btn-light" style="margin-top:50px;" onclick="goToConfirmation()" disabled>Book now</button>\n' \
+                   '</div>\n' \
                    '</div>'
     return string_html
+
+@eel.expose
+def add_index_seats(id):
+    indexs_seats.append(id)
+
+@eel.expose
+def remove_index_seats(id):
+    indexs_seats.remove(id)
+
+@eel.expose
+def reserve():
+    reservation_Service.reserve(index_screening, indexs_seats, 1)
 
 eel.start('index.html')
