@@ -41,10 +41,30 @@
     <div id="reservation" class="row justify-content-center">
 
     </div>
-    <button onclick="goToConfirmation()">Book now</button>
+    <div class="row justify-content-center" style="background-color: #343a40;margin: 20px;">
+        <div class="card-seat" style=" background-color: white; color: black;">
+            <h6>0</h6>
+        </div>
+        <div class="card-seat" style="margin-right: 30px">
+            <h6>Empty</h6>
+        </div>
+        <div class="card-seat" style=" background-color: indianred; color: white;">
+            <h6>0</h6>
+        </div>
+        <div class="card-seat" style="margin-right: 40px">
+            <h6>Reserved</h6>
+        </div>
+        <div class="card-seat" style=" background-color: blue; color: white;">
+            <h6>0</h6>
+        </div>
+        <div class="card-seat" style="margin-right: 30px">
+            <h6>Chosen</h6>
+        </div>
+    </div>
 </div>
 </body>
 <script>
+    var numberSeats = 0
 
     function loadSeats(stringHTML) {
         document.getElementById("reservation").innerHTML = stringHTML;
@@ -58,15 +78,25 @@
         if (seat.style.backgroundColor == "white") {
             seat.style.backgroundColor = "blue";
             seat.style.color = "white";
+            eel.add_index_seats(id);
+            numberSeats++;
         } else if (seat.style.backgroundColor == "blue") {
             seat.style.backgroundColor = "white";
             seat.style.color = "black";
+            eel.remove_index_seats(id);
+            numberSeats--;
         } else {
             document.getElementById("seat-reserved").hidden = false;
+        }
+        if (numberSeats == 0) {
+            document.getElementById("book-now").disabled = true;
+        } else {
+            document.getElementById("book-now").disabled = false;
         }
     }
 
     function goToConfirmation() {
+        eel.reserve();
         window.location.href = "reservation.html";
     }
 </script>
