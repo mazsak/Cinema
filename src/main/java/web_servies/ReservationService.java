@@ -54,7 +54,14 @@ public class ReservationService {
         screeningDao.findById(screeningId).ifPresent(reservation::setScreening);
         Set<Seat> seats = seatIds.stream().map(seatId -> seatDao.findById(seatId).orElse(null)).filter(Objects::nonNull).collect(Collectors.toSet());
         reservation.setSeats(seats);
-        userDao.findById(userId).ifPresent(reservation::setUser);
+        userDao.findById(userId).ifPresent(user -> {
+            reservation.setUser(user);
+            try {
+                sendEmail(user.getMail(), reservation);
+            } catch (MessagingException | IOException | DocumentException | NotFound e) {
+                e.printStackTrace();
+            }
+        });
         reservationDao.save(reservation);
     }
 
@@ -72,10 +79,10 @@ public class ReservationService {
     }
 
     @WebMethod
-    public void sendEmail(String mailTo, Long reservationId) throws MessagingException, IOException, DocumentException, NotFound {
+    public void sendEmail(String mailTo, Reservation reservation) throws MessagingException, IOException, DocumentException, NotFound {
         Properties prop = getProperties();
         Session session = getSession(prop);
-        Message message = createReservationMessage(session, mailTo, reservationId);
+        Message message = createReservationMessage(session, mailTo, reservation);
         Transport.send(message);
     }
 
@@ -92,7 +99,7 @@ public class ReservationService {
     }
 
 
-    private Message createReservationMessage(Session session, String emailTo, Long reservationId) throws MessagingException, IOException, DocumentException, NotFound {
+    private Message createReservationMessage(Session session, String emailTo, Reservation reservation) throws MessagingException, IOException, DocumentException, NotFound {
         Message message = new MimeMessage(session);
         message.setFrom(new InternetAddress("cinema.rsi.project@gmail.com"));
         message.setRecipients(
@@ -113,7 +120,6 @@ public class ReservationService {
         PdfWriter.getInstance(document, new FileOutputStream("reservation.pdf"));
 
         document.open();
-        Reservation reservation = reservationDao.findById(reservationId).orElse(null);
         if (reservation==null){
             throw new NotFound();
         }
@@ -128,7 +134,7 @@ public class ReservationService {
         final String[] reservationDetails = {"Seats: \n"};
         reservation.getSeats()
                 .forEach(seat -> {
-                    reservationDetails[0] = reservationDetails[0].concat("row: " + seat.getRow() + ", number: " + seat.getNumber() +"\n");
+                    reservationDetails[0] = reservationDetails[0].concat("row: " + (seat.getRow()+1) + ", number: " + (seat.getNumber()+1) +"\n");
                 });
         Chunk details = new Chunk(reservationDetails[0], font);
         document.add(new Paragraph(header));

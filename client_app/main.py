@@ -102,9 +102,7 @@ def create_view_details_movie():
                   '<table class="table table-striped table-dark" style="padding: 20px">\n'
 
     for actor in movie['actors']:
-        string_html += '<tr onclick="goToActor(' \
-                       + str(actor['id']) + \
-                       ')" style="cursor: pointer;">\n' \
+        string_html += '<tr>\n' \
                        '<td>' \
                        + actor['firstName'] + \
                        '</td>\n' \
@@ -120,9 +118,7 @@ def create_view_details_movie():
                    '<table class="table table-striped table-dark" style="padding: 20px">\n'
 
     for director in movie['directors']:
-        string_html += '<tr onclick="goToDirector(' \
-                       + str(director['id']) + \
-                       ')" style="cursor: pointer;">\n<td>' \
+        string_html += '<tr>\n<td>' \
                        + director['firstName'] + \
                        '</td>\n' \
                        '<td>' \

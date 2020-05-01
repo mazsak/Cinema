@@ -26,7 +26,7 @@ public class InitDatabase {
         userDao.save(User.builder()
                 .username("user1")
                 .password("dddd")
-                .mail("ktus@c.cc")
+                .mail("mazsak97@gmail.com")
                 .phoneNumber(123123123).build());
         userDao.save(User.builder()
                 .username("user2")
