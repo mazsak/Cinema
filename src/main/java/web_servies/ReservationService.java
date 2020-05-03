@@ -75,6 +75,11 @@ public class ReservationService {
     }
 
     @WebMethod
+    public Reservation findReservationById(Long reservationId){
+        return reservationDao.findById(reservationId).orElse(null);
+    }
+
+    @WebMethod
     public void cancelReservation(Long reservationId) {
         reservationDao.deleteById(reservationId);
     }

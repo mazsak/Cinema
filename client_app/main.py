@@ -7,6 +7,8 @@ from zeep import Client
 index_movie = None
 index_screening = None
 indexs_seats = []
+index_reservation = None
+pom_index = None
 user = None
 
 movie_Service = Client('http://localhost:9999/cinema/movieservice?wsdl').service
@@ -69,6 +71,14 @@ def create_view_list_movies():
 def change_index_movie(id):
     global index_movie
     index_movie = id
+
+
+@eel.expose
+def change_index_reservation(id, screening_id):
+    global index_reservation
+    global index_screening
+    index_screening = screening_id
+    index_reservation = id
 
 
 @eel.expose
@@ -220,7 +230,13 @@ def change_index_screening(id):
 
 @eel.expose
 def create_view_reservation():
+    global index_reservation
     global indexs_seats
+    global pom_index
+    pom_index = index_reservation
+    index_reservation = None
+    if pom_index is not None:
+        reservation = reservation_Service.findReservationById(pom_index)
     indexs_seats = []
     screening = screening_Service.getScreeningById(index_screening)
     seats = reservation_Service.findReservedSeatsByScreeningId(index_screening)
@@ -236,7 +252,7 @@ def create_view_reservation():
                   '</tr>\n'
     i = 1
     y = 1
-    for row in seats:
+    for index_row, row in enumerate(seats):
         string_html += '<tr>\n' \
                        '<td>\n' \
                        '<h6 class="card-seat">\n' \
@@ -245,14 +261,19 @@ def create_view_reservation():
                        '</td>\n' \
                        '<td>\n' \
                        '<div>\n'
-        for seat in row['item']:
+        for index_number, seat in enumerate(row['item']):
             id_seat = \
                 [id['id'] for id in screening['auditorium']['seats'] if id['number'] == y - 1 and id['row'] == i - 1]
             id_seat = id_seat[0]
             string_html += '<div id="' \
                            + str(id_seat) + \
                            '" class="card-seat"\n'
-            if seat:
+            if pom_index is not None and [reservation_seat for reservation_seat in reservation['seats'] if
+                                                  reservation_seat['row'] == index_row and reservation_seat[
+                                                      'number'] == index_number]:
+                indexs_seats.append(id_seat)
+                string_html += 'style=" background-color: blue; color: white; cursor: pointer; "\n'
+            elif seat:
                 string_html += 'style=" background-color: indianred; color: white; cursor: pointer; "\n'
             else:
                 string_html += 'style=" background-color: white; color: black; cursor: pointer; "\n'
@@ -299,10 +320,19 @@ def add_index_seats(id):
 def remove_index_seats(id):
     indexs_seats.remove(id)
 
+@eel.expose
+def remove_reservation(id):
+    reservation_Service.cancelReservation(id)
+
 
 @eel.expose
 def reserve():
-    reservation_Service.reserve(index_screening, indexs_seats, 1)
+    global pom_index
+    if pom_index is None:
+        reservation_Service.reserve(index_screening, indexs_seats, user['id'])
+    else:
+        reservation_Service.updateSeats(pom_index, indexs_seats)
+        pom_index = None
 
 
 @eel.expose
@@ -375,9 +405,9 @@ def create_view_list_reservation():
                        '<h6 style="margin-top: 20px">Places: '
         for seat in reservation['seats']:
             string_html += '<p> Row: ' \
-                           + str(seat['row']+1) + \
+                           + str(seat['row'] + 1) + \
                            ', Number: ' \
-                           + str(seat['number']+1) + \
+                           + str(seat['number'] + 1) + \
                            '</p>'
         string_html += '</h6>\n' \
                        '</div>\n' \
@@ -385,6 +415,8 @@ def create_view_list_reservation():
                        '<td class="align-middle">\n' \
                        '<button type="button" class="btn btn-light" onclick="edit(' \
                        + str(reservation['id']) + \
+                       ',' \
+                       + str(reservation['screening']['id']) + \
                        ')">\n' \
                        'Edit\n' \
                        '</button>\n' \
@@ -399,6 +431,13 @@ def create_view_list_reservation():
                        '</tr>\n'
     string_html += '</table>'
     return string_html
+
+
+@eel.expose
+def is_user_logged_in():
+    if user is None:
+        eel.show('login.html')
+        # return 'window.location.href = "login.html";'
 
 
 eel.start('login.html')

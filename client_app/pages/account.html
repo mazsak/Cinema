@@ -132,12 +132,14 @@
         }
     }
 
-    function edit(id) {
-
+    function edit(id, screeningId) {
+        eel.change_index_reservation(id, screeningId);
+        window.location.href = "reservation.html";
     }
 
     function remove(id) {
-
+        eel.remove_reservation(id);
+        window.location.href = "account.html";
     }
 
     function loadReservation(stringHTML) {
