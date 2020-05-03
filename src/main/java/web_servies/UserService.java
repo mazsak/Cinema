@@ -35,4 +35,10 @@ public class UserService {
     public User findUserByUsernameAndPassword(String username, String password){
         return userDao.findUserByUsernameAndPassword(username, password);
     }
+
+    @WebMethod
+    public User updateUser(User user) {
+        userDao.update(user);
+        return user;
+    }
 }
