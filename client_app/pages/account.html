@@ -132,6 +132,14 @@
         }
     }
 
+    function update() {
+        eel.update_user(document.getElementById("login").value,
+            document.getElementById("password").value,
+            document.getElementById("number-phone").value,
+            document.getElementById("email").value);
+        window.location.href = "account.html";
+    }
+
     function edit(id, screeningId) {
         eel.change_index_reservation(id, screeningId);
         window.location.href = "reservation.html";

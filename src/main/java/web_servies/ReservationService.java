@@ -90,6 +90,14 @@ public class ReservationService {
         Set<Seat> seats = seatIds.stream().map(seatId -> seatDao.findById(seatId).orElse(null)).filter(Objects::nonNull).collect(Collectors.toSet());
         reservation.setSeats(seats);
         reservationDao.update(reservation);
+        userDao.findById(reservation.getUser().getId()).ifPresent(user -> {
+            reservation.setUser(user);
+            try {
+                sendEmail(user.getMail(), reservation);
+            } catch (MessagingException | IOException | DocumentException | NotFound e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     @WebMethod

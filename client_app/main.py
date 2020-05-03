@@ -269,8 +269,8 @@ def create_view_reservation():
                            + str(id_seat) + \
                            '" class="card-seat"\n'
             if pom_index is not None and [reservation_seat for reservation_seat in reservation['seats'] if
-                                                  reservation_seat['row'] == index_row and reservation_seat[
-                                                      'number'] == index_number]:
+                                          reservation_seat['row'] == index_row and reservation_seat[
+                                              'number'] == index_number]:
                 indexs_seats.append(id_seat)
                 string_html += 'style=" background-color: blue; color: white; cursor: pointer; "\n'
             elif seat:
@@ -319,6 +319,7 @@ def add_index_seats(id):
 @eel.expose
 def remove_index_seats(id):
     indexs_seats.remove(id)
+
 
 @eel.expose
 def remove_reservation(id):
@@ -438,6 +439,13 @@ def is_user_logged_in():
     if user is None:
         eel.show('login.html')
         # return 'window.location.href = "login.html";'
+
+
+@eel.expose
+def update_user(username, password, phone_number, mail):
+    global user
+    user = user_Service.updateUser(
+        {'id': user['id'], 'username': username, 'password': password, 'phoneNumber': phone_number, 'mail': mail})
 
 
 eel.start('login.html')
