@@ -97,11 +97,11 @@ public class InitDatabase {
                 .seats(createSeats(10, 10)).build());
     }
 
-    private static Set<Seat> createSeats(int rows, int numbers){
+    private static Set<Seat> createSeats(int rows, int numbers) {
         SeatDao seatDao = new SeatDao();
         Set<Seat> seats = new HashSet<>();
-        for(int i=0; i<rows; i++){
-            for(int j=0; j<numbers; j++){
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < numbers; j++) {
                 Seat seat = Seat.builder()
                         .row(i)
                         .number(j).build();
@@ -222,7 +222,7 @@ public class InitDatabase {
     private static void loadReservations() {
         System.out.println("-------------Init reservation-------------");
         ReservationDao reservationDao = new ReservationDao();
-        List<User> users= new UserDao().findAll();
+        List<User> users = new UserDao().findAll();
         List<Screening> screenings = new ScreeningDao().findAll();
         List<Seat> seats = new SeatDao().findAll();
         reservationDao.save(Reservation.builder()

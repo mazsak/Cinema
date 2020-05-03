@@ -9,7 +9,6 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
-
     <script type="text/javascript" src="/eel.js"></script>
 
     <link rel="stylesheet" type="text/css" href="css/styles.css" media="screen"/>
@@ -19,7 +18,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="index.html">Cinema</a>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
                     <a class="nav-link" href="repertoire.html">Repertoire</a>
                 </li>
@@ -27,15 +26,19 @@
                     <a class="nav-link" href="list_fims.html">Films</a>
                 </li>
             </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="nav-item">
+                    <a class="nav-link" href="account.html">
+                        <span id="name-user"></span>
+                    </a>
+                </li>
+            </ul>
         </div>
     </nav>
 </div>
 <div id="container">
-    <div id="wrong" hidden class="alert alert-danger" role="alert">
-        Something went wrong!
-    </div>
-    <div style="background-color: #343a40; width: 550px; margin-top: 200px; margin-right: auto; margin-left: auto; padding: 30px;">
-        <table>
+    <div style="background-color: #343a40; padding: 50px;">
+        <table style="width: 100%;">
             <tr>
                 <td style="padding: 10px">
                     <span>
@@ -95,16 +98,29 @@
                 <td style="padding: 10px">
                 </td>
                 <td style="padding: 10px; float: right">
-                    <button id="btn-register" type="button" class="btn btn-light" onclick="register()" disabled>
-                        Register
+                    <button id="btn-register" type="button" class="btn btn-light" onclick="update()" disabled>
+                        Update
                     </button>
                 </td>
             </tr>
         </table>
     </div>
+    <div id="list-reservation" style="background-color: #343a40; padding: 50px;margin-top: 30px">
+
+    </div>
 </div>
 </body>
 <script>
+    function check(response) {
+        if (response == "Empty") {
+            window.location.href = "login.html";
+        } else {
+            document.getElementById("name-user").innerHTML = response
+        }
+    }
+
+    eel.check_user()(check);
+
     function changeButton() {
         if (document.getElementById("login").value.length != 0 &&
             document.getElementById("password").value.length != 0 &&
@@ -116,21 +132,19 @@
         }
     }
 
-    function register() {
-        eel.register(document.getElementById("login").value,
-            document.getElementById("password").value,
-            document.getElementById("number-phone").value,
-            document.getElementById("email").value)(nextSteps);
+    function edit(id) {
 
     }
 
-    function nextSteps(response) {
-        document.getElementById("wrong").hidden = true;
-        if (response == "Error") {
-            document.getElementById("wrong").hidden = false;
-        } else {
-            window.location.href = "index.html";
-        }
+    function remove(id) {
+
     }
+
+    function loadReservation(stringHTML) {
+        document.getElementById("list-reservation").innerHTML = stringHTML;
+    }
+
+    eel.create_view_list_reservation()(loadReservation);
+
 </script>
 </html>

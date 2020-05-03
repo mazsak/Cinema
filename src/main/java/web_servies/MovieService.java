@@ -1,10 +1,6 @@
 package web_servies;
 
-import dao.ActorDao;
-import dao.DirectorDao;
 import dao.MovieDao;
-import entities.Actor;
-import entities.Director;
 import entities.Movie;
 
 import javax.jws.WebMethod;
@@ -16,25 +12,19 @@ import java.util.List;
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL)
 public class MovieService {
 
-    private MovieDao movieDao;
-    private ActorDao actorDao;
-    private DirectorDao directorDao;
+    private final MovieDao movieDao;
 
     public MovieService() {
         movieDao = new MovieDao();
-        actorDao = new ActorDao();
-        directorDao = new DirectorDao();
     }
 
     @WebMethod
     public List<Movie> getAllMovie() {
-        List<Movie> movies = movieDao.findAll();
-        return movies;
+        return movieDao.findAll();
     }
 
     @WebMethod
     public Movie getMovieById(long id) {
-        Movie movie = movieDao.findById(id).get();
-        return movie;
+        return movieDao.findById(id).get();
     }
 }

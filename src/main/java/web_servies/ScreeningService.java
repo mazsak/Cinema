@@ -12,7 +12,7 @@ import java.util.List;
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL)
 public class ScreeningService {
 
-    private ScreeningDao screeningDao;
+    private final ScreeningDao screeningDao;
 
     public ScreeningService() {
         screeningDao = new ScreeningDao();

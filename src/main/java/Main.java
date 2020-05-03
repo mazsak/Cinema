@@ -1,4 +1,3 @@
-import entities.User;
 import utils.InitDatabase;
 import web_servies.*;
 

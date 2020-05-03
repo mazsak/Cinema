@@ -14,20 +14,21 @@ import javax.xml.ws.soap.SOAPBinding;
 @BindingType(value = SOAPBinding.SOAP11HTTP_MTOM_BINDING)
 public class UserService {
 
-    UserDao userDao;
+    final UserDao userDao;
 
     public UserService(){
         userDao = new UserDao();
     }
 
     @WebMethod
-    public void createUser(String username, String password, long phoneNumber, String mail){
+    public User createUser(String username, String password, long phoneNumber, String mail) {
         userDao.save(
                 User.builder()
                         .username(username)
                         .password(password)
                         .phoneNumber(phoneNumber)
                         .mail(mail).build());
+        return userDao.findUserByUsernameAndPassword(username, password);
     }
 
     @WebMethod

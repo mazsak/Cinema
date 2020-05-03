@@ -3,48 +3,57 @@ package web_servies;
 import com.google.gson.Gson;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.PdfWriter;
-import dao.*;
-import entities.*;
+import dao.ReservationDao;
+import dao.ScreeningDao;
+import dao.SeatDao;
+import dao.UserDao;
+import entities.Auditorium;
+import entities.Reservation;
+import entities.Screening;
+import entities.Seat;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import javax.mail.*;
-import javax.mail.internet.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.*;
 import java.util.List;
+import java.util.Objects;
+import java.util.Properties;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @WebService(serviceName = "reservationservice")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL)
 public class ReservationService {
 
-    private ReservationDao reservationDao;
-    private ScreeningDao screeningDao;
-    private SeatDao seatDao;
-    private UserDao userDao;
-    private AuditoriumDao auditoriumDao;
+    private final ReservationDao reservationDao;
+    private final ScreeningDao screeningDao;
+    private final SeatDao seatDao;
+    private final UserDao userDao;
 
     public ReservationService() {
         reservationDao = new ReservationDao();
         screeningDao = new ScreeningDao();
         seatDao = new SeatDao();
         userDao = new UserDao();
-        auditoriumDao = new AuditoriumDao();
     }
 
     @WebMethod
-    public String getAllReservation(){
+    public String getAllReservation() {
         return new Gson().toJson(reservationDao.findAll());
     }
 
     @WebMethod
-    public String getReservationByUserId(Long idUser){
-        return new Gson().toJson(reservationDao.findByUserId(idUser));
+    public List<Reservation> getReservationByUserId(Long idUser) {
+        return reservationDao.findByUserId(idUser);
     }
 
     @WebMethod
@@ -133,9 +142,7 @@ public class ReservationService {
         Chunk auditorium = new Chunk("At auditorium: " + screening.getAuditorium().getName(), font);
         final String[] reservationDetails = {"Seats: \n"};
         reservation.getSeats()
-                .forEach(seat -> {
-                    reservationDetails[0] = reservationDetails[0].concat("row: " + (seat.getRow()+1) + ", number: " + (seat.getNumber()+1) +"\n");
-                });
+                .forEach(seat -> reservationDetails[0] = reservationDetails[0].concat("row: " + (seat.getRow() + 1) + ", number: " + (seat.getNumber() + 1) + "\n"));
         Chunk details = new Chunk(reservationDetails[0], font);
         document.add(new Paragraph(header));
         document.add(new Paragraph(filmDetails));

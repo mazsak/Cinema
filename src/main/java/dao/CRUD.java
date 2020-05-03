@@ -9,8 +9,8 @@ import java.util.Optional;
 
 public class CRUD<ENTITY> {
 
-    protected EntityManager em = FactoryHibernate.getEntityManager();
-    private Class<ENTITY> type;
+    protected final EntityManager em = FactoryHibernate.getEntityManager();
+    private final Class<ENTITY> type;
 
     public CRUD() {
         this.type = (Class<ENTITY>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[0];

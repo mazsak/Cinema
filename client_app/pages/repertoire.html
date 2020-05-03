@@ -18,15 +18,19 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand" href="index.html">Cinema</a>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
-            <ul class="navbar-nav">
+            <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
                     <a class="nav-link" href="repertoire.html">Repertoire</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="list_fims.html">Films</a>
                 </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
                 <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
+                    <a class="nav-link" href="account.html">
+                        <span id="name-user"></span>
+                    </a>
                 </li>
             </ul>
         </div>
@@ -40,6 +44,17 @@
 </div>
 </body>
 <script>
+
+    function check(response) {
+        if (response == "Empty") {
+            window.location.href = "login.html";
+        } else {
+            document.getElementById("name-user").innerHTML = response
+        }
+    }
+
+    eel.check_user()(check);
+
     function createDate() {
         var monthName = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
         var date = new Date();

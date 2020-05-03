@@ -26,14 +26,14 @@
                 <li class="nav-item">
                     <a class="nav-link" href="list_fims.html">Films</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Pricing</a>
-                </li>
             </ul>
         </div>
     </nav>
 </div>
 <div id="container">
+    <div id="wrong" hidden class="alert alert-danger" role="alert">
+        Wrong login or password!
+    </div>
     <div style="background-color: #343a40; width: 500px; margin-top: 200px; margin-right: auto; margin-left: auto; padding: 30px;">
         <table>
             <tr>
@@ -43,7 +43,7 @@
                 </span>
                 </td>
                 <td style="padding: 10px;">
-                    <input id="login" type="text" onchange="changeButton()"
+                    <input id="login" placeholder="Login" type="text" oninput="changeButton()"
                            style="border-radius: 20px; width: 300px;padding: 5px"/>
                 </td>
             </tr>
@@ -54,7 +54,7 @@
                     </span>
                 </td>
                 <td style="padding: 10px">
-                    <input id="password" type="password" onchange="changeButton()"
+                    <input id="password" placeholder="Password" type="password" oninput="changeButton()"
                            style="border-radius: 20px; width: 300px; padding: 5px"/>
                 </td>
             </tr>
@@ -85,7 +85,17 @@
     }
 
     function login() {
-        eel.login(document.getElementById("login").value, document.getElementById("password").value)
+        eel.login(document.getElementById("login").value, document.getElementById("password").value)(nextSteps);
+
+    }
+
+    function nextSteps(response) {
+        document.getElementById("wrong").hidden = true;
+        if (response == "Error") {
+            document.getElementById("wrong").hidden = false;
+        } else {
+            window.location.href = "index.html";
+        }
     }
 </script>
 </html>

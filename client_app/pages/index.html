@@ -4,36 +4,51 @@
     <meta charset="UTF-8">
     <title>Cinema</title>
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
     <script type="text/javascript" src="/eel.js"></script>
 
-    <link rel="stylesheet" type="text/css" href="css/styles.css" media="screen" />
+    <link rel="stylesheet" type="text/css" href="css/styles.css" media="screen"/>
 </head>
 <body>
-    <div class="fixed-top my-nav">
+<div class="fixed-top my-nav">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-  <a class="navbar-brand" href="index.html">Cinema</a>
-  <div class="collapse navbar-collapse" id="navbarNavDropdown">
-    <ul class="navbar-nav">
-      <li class="nav-item active">
-        <a class="nav-link" href="repertoire.html">Repertoire</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="list_fims.html">Films</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">Pricing</a>
-      </li>
-    </ul>
-  </div>
-</nav>
+        <a class="navbar-brand" href="index.html">Cinema</a>
+        <div class="collapse navbar-collapse" id="navbarNavDropdown">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="repertoire.html">Repertoire</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="list_fims.html">Films</a>
+                </li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="nav-item">
+                    <a class="nav-link" href="account.html">
+                        <span id="name-user"></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
 </div>
 <div id="container">
     ble
 </div>
 </body>
 <script>
+    function check(response) {
+        if (response == "Empty") {
+            window.location.href = "login.html";
+        } else {
+            document.getElementById("name-user").innerHTML = response
+        }
+    }
 
+    eel.check_user()(check)
 </script>
 </html>

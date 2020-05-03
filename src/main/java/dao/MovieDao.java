@@ -1,10 +1,6 @@
 package dao;
 
-import entities.Actor;
-import entities.Director;
 import entities.Movie;
-
-import java.util.List;
 
 public class MovieDao extends CRUD<Movie> {
 

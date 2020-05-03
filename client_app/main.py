@@ -7,7 +7,7 @@ from zeep import Client
 index_movie = None
 index_screening = None
 indexs_seats = []
-user= None
+user = None
 
 movie_Service = Client('http://localhost:9999/cinema/movieservice?wsdl').service
 image_Service = Client('http://localhost:9999/cinema2/imageservice?wsdl').service
@@ -248,7 +248,7 @@ def create_view_reservation():
         for seat in row['item']:
             id_seat = \
                 [id['id'] for id in screening['auditorium']['seats'] if id['number'] == y - 1 and id['row'] == i - 1]
-            id_seat= id_seat[0]
+            id_seat = id_seat[0]
             string_html += '<div id="' \
                            + str(id_seat) + \
                            '" class="card-seat"\n'
@@ -263,7 +263,7 @@ def create_view_reservation():
                            + str(y) + \
                            '</h6>\n' \
                            '</div>\n'
-            y+=1
+            y += 1
         i += 1
         y = 1
         string_html += '</div>\n' \
@@ -289,22 +289,116 @@ def create_view_reservation():
                    '</div>'
     return string_html
 
+
 @eel.expose
 def add_index_seats(id):
     indexs_seats.append(id)
+
 
 @eel.expose
 def remove_index_seats(id):
     indexs_seats.remove(id)
 
+
 @eel.expose
 def reserve():
     reservation_Service.reserve(index_screening, indexs_seats, 1)
+
 
 @eel.expose
 def login(login, password):
     global user
     user = user_Service.findUserByUsernameAndPassword(login, password)
-    print(user)
+    if user is None:
+        return "Error"
+    else:
+        return "Exist"
+
+
+@eel.expose
+def check_user():
+    if user is None:
+        return 'Empty'
+    else:
+        return '<h5>' + user['username'] + '</h5>'
+
+
+@eel.expose
+def get_email():
+    return user['mail']
+
+
+@eel.expose
+def register(username, password, phoneNumber, mail):
+    global user
+    user = user_Service.createUser(username, password, phoneNumber, mail)
+    if user is None:
+        return "Error"
+    else:
+        return "Exist"
+
+
+@eel.expose
+def create_view_list_reservation():
+    reservations = reservation_Service.getReservationByUserId(user['id'])
+
+    string_html = '<h3 class="text-center">Reservations</h3>\n' \
+                  '<table class="table table-striped table-dark"' \
+                  'style="width: 90%; margin-right: auto; margin-left: auto; margin-bottom: 30px">\n'
+    for reservation in reservations:
+        if reservation['screening']['movie']['imagePath'] is None:
+            path_image = '/img/not-found.jpg'
+        else:
+            bytes = image_Service.getImage(reservation['screening']['movie']['imagePath'])
+            image = Image.open(io.BytesIO(bytes))
+            image.save('pages/img/' + str(reservation['screening']['movie']['id']) + '.jpg')
+            path_image = 'img/' + str(reservation['screening']['movie']['id']) + '.jpg'
+        string_html += '<tr>\n' \
+                       '<td style="width: 300px;">\n' \
+                       '<img id="image-movie" src="' \
+                       + path_image + \
+                       '">\n' \
+                       '</td>\n' \
+                       '<td>\n' \
+                       '<div style="margin-top: 20px; height: 350px; text-align: left">\n' \
+                       '<h1>' \
+                       + reservation['screening']['movie']['title'] + \
+                       '</h1>\n' \
+                       '<h5>' \
+                       + reservation['screening']['movie']['description'] + \
+                       '</h5>\n' \
+                       '<h6 style="margin-top: 20px">Time: ' \
+                       + reservation['screening']['hour'] + \
+                       ':' \
+                       + reservation['screening']['minutes'] + \
+                       '</h6>\n' \
+                       '<h6 style="margin-top: 20px">Places: '
+        for seat in reservation['seats']:
+            string_html += '<p> Row: ' \
+                           + str(seat['row']+1) + \
+                           ', Number: ' \
+                           + str(seat['number']+1) + \
+                           '</p>'
+        string_html += '</h6>\n' \
+                       '</div>\n' \
+                       '</td>\n' \
+                       '<td class="align-middle">\n' \
+                       '<button type="button" class="btn btn-light" onclick="edit(' \
+                       + str(reservation['id']) + \
+                       ')">\n' \
+                       'Edit\n' \
+                       '</button>\n' \
+                       '</td>\n' \
+                       '<td class="align-middle">\n' \
+                       '<button type="button" class="btn btn-light" onclick="remove(' \
+                       + str(reservation['id']) + \
+                       ')">\n' \
+                       'Delete\n' \
+                       '</button>\n' \
+                       '</td>\n' \
+                       '</tr>\n'
+    string_html += '</table>'
+    return string_html
+
 
 eel.start('login.html')
