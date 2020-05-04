@@ -398,6 +398,13 @@ def create_view_list_reservation():
                        '<h5>' \
                        + reservation['screening']['movie']['description'] + \
                        '</h5>\n' \
+                       '<h6 style="margin-top: 20px">Date: ' \
+                       + str(reservation['screening']['day']) + \
+                       '.' \
+                       + str(reservation['screening']['month']) + \
+                       '.' \
+                       + str(reservation['screening']['year']) + \
+                       '</h6>\n' \
                        '<h6 style="margin-top: 20px">Time: ' \
                        + reservation['screening']['hour'] + \
                        ':' \

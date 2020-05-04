@@ -9,10 +9,10 @@ import java.util.stream.Collectors;
 
 public class SeatDao extends CRUD<Seat> {
 
-    public List<Set<Seat>> findReservedSeats(Long screeningId){
+    public Set<Seat> findReservedSeats(Long screeningId) {
         em.getTransaction().begin();
         List<Reservation> reservations = em.createQuery("from Reservation r where r.screening.id=:scId", Reservation.class).setParameter("scId", screeningId).getResultList();
-        List<Set<Seat>> results = reservations.stream().map(Reservation::getSeats).collect(Collectors.toList());
+        Set<Seat> results = reservations.stream().map(Reservation::getSeats).flatMap(Set::stream).collect(Collectors.toSet());
         em.getTransaction().commit();
         return results;
     }

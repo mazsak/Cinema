@@ -113,10 +113,8 @@ public class ReservationService {
         Screening screening = screeningDao.findById(screeningId).orElseThrow(NotFound::new);
         Auditorium auditorium = screening.getAuditorium();
         boolean[][] seats = new boolean[auditorium.getRow()][auditorium.getNumber()];
-        List<Set<Seat>> reservedSeatsForScreening = seatDao.findReservedSeats(screeningId);
-        reservedSeatsForScreening
-                .forEach(seatSet -> seatSet
-                        .forEach(seat -> seats[seat.getRow()][seat.getNumber()]=true));
+        Set<Seat> reservedSeatsForScreening = seatDao.findReservedSeats(screeningId);
+        reservedSeatsForScreening.forEach(seat -> seats[seat.getRow()][seat.getNumber()] = true);
         return seats;
     }
 

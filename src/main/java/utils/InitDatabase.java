@@ -182,7 +182,7 @@ public class InitDatabase {
                 .movie(movies.get(0))
                 .year(2020)
                 .month(5)
-                .day(1)
+                .day(4)
                 .hour("19")
                 .minutes("00").build());
         screeningDao.save(Screening.builder()
@@ -190,7 +190,7 @@ public class InitDatabase {
                 .movie(movies.get(0))
                 .year(2020)
                 .month(5)
-                .day(1)
+                .day(4)
                 .hour("15")
                 .minutes("00").build());
         screeningDao.save(Screening.builder()
@@ -198,7 +198,7 @@ public class InitDatabase {
                 .movie(movies.get(1))
                 .year(2020)
                 .month(5)
-                .day(1)
+                .day(4)
                 .hour("19")
                 .minutes("00").build());
         screeningDao.save(Screening.builder()
@@ -206,7 +206,7 @@ public class InitDatabase {
                 .movie(movies.get(1))
                 .year(2020)
                 .month(5)
-                .day(3)
+                .day(5)
                 .hour("19")
                 .minutes("00").build());
         screeningDao.save(Screening.builder()
@@ -214,7 +214,7 @@ public class InitDatabase {
                 .movie(movies.get(2))
                 .year(2020)
                 .month(5)
-                .day(2)
+                .day(6)
                 .hour("16")
                 .minutes("00").build());
     }

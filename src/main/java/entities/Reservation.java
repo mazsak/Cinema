@@ -16,7 +16,7 @@ import java.util.Set;
 public class Reservation {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -24,11 +24,6 @@ public class Reservation {
 
     @Singular
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(
-            name = "reservation_seat",
-            joinColumns = { @JoinColumn(name = "reservation_id") },
-            inverseJoinColumns = { @JoinColumn(name = "seat_id") }
-    )
     private Set<Seat> seats;
 
     @ManyToOne(fetch = FetchType.LAZY)
