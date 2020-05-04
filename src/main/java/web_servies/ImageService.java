@@ -10,7 +10,7 @@ import java.io.File;
 import java.io.IOException;
 
 @MTOM
-@WebService(serviceName = "imageservice")
+@WebService(serviceName = "service")
 @BindingType(value = SOAPBinding.SOAP11HTTP_MTOM_BINDING)
 public class ImageService {
 

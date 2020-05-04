@@ -10,7 +10,7 @@ import javax.xml.ws.soap.MTOM;
 import javax.xml.ws.soap.SOAPBinding;
 
 @MTOM
-@WebService(serviceName = "userservice")
+@WebService(serviceName = "service")
 @BindingType(value = SOAPBinding.SOAP11HTTP_MTOM_BINDING)
 public class UserService {
 

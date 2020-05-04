@@ -30,7 +30,7 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@WebService(serviceName = "reservationservice")
+@WebService(serviceName = "service")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL)
 public class ReservationService {
 
@@ -110,10 +110,10 @@ public class ReservationService {
 
     @WebMethod
     public boolean[][] findReservedSeatsByScreeningId(Long screeningId) throws NotFound {
+        Set<Seat> reservedSeatsForScreening = reservationDao.findAll().stream().filter(reservation -> reservation.getScreening().getId() == screeningId).map(Reservation::getSeats).flatMap(Set::stream).collect(Collectors.toSet());
         Screening screening = screeningDao.findById(screeningId).orElseThrow(NotFound::new);
         Auditorium auditorium = screening.getAuditorium();
         boolean[][] seats = new boolean[auditorium.getRow()][auditorium.getNumber()];
-        Set<Seat> reservedSeatsForScreening = seatDao.findReservedSeats(screeningId);
         reservedSeatsForScreening.forEach(seat -> seats[seat.getRow()][seat.getNumber()] = true);
         return seats;
     }

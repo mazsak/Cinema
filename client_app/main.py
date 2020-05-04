@@ -11,11 +11,13 @@ index_reservation = None
 pom_index = None
 user = None
 
-movie_Service = Client('http://localhost:9999/cinema/movieservice?wsdl').service
-image_Service = Client('http://localhost:9999/cinema2/imageservice?wsdl').service
-screening_Service = Client('http://localhost:9999/cinema3/screeningservice?wsdl').service
-reservation_Service = Client('http://localhost:9999/cinema4/reservationservice?wsdl').service
-user_Service = Client('http://localhost:9999/cinema5/userservice?wsdl').service
+url = 'http://localhost:8080'
+
+movie_Service = Client(url + '/movie/service?wsdl').service
+image_Service = Client(url + '/image/service?wsdl').service
+screening_Service = Client(url + '/screening/service?wsdl').service
+reservation_Service = Client(url + '/reservation/service?wsdl').service
+user_Service = Client(url + '/user/service?wsdl').service
 
 eel.init('pages')
 
