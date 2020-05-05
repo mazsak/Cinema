@@ -183,7 +183,7 @@ public class InitDatabase {
                 .movie(movies.get(0))
                 .year(2020)
                 .month(5)
-                .day(4)
+                .day(5)
                 .hour("19")
                 .minutes("00").build());
         screeningDao.save(Screening.builder()
@@ -191,7 +191,7 @@ public class InitDatabase {
                 .movie(movies.get(0))
                 .year(2020)
                 .month(5)
-                .day(4)
+                .day(5)
                 .hour("15")
                 .minutes("00").build());
         screeningDao.save(Screening.builder()
@@ -199,7 +199,7 @@ public class InitDatabase {
                 .movie(movies.get(1))
                 .year(2020)
                 .month(5)
-                .day(4)
+                .day(5)
                 .hour("19")
                 .minutes("00").build());
         screeningDao.save(Screening.builder()
@@ -216,6 +216,46 @@ public class InitDatabase {
                 .year(2020)
                 .month(5)
                 .day(6)
+                .hour("16")
+                .minutes("00").build());
+        screeningDao.save(Screening.builder()
+                .auditorium(auditoriums.get(1))
+                .movie(movies.get(0))
+                .year(2020)
+                .month(5)
+                .day(5)
+                .hour("10")
+                .minutes("00").build());
+        screeningDao.save(Screening.builder()
+                .auditorium(auditoriums.get(0))
+                .movie(movies.get(0))
+                .year(2020)
+                .month(5)
+                .day(7)
+                .hour("15")
+                .minutes("00").build());
+        screeningDao.save(Screening.builder()
+                .auditorium(auditoriums.get(1))
+                .movie(movies.get(1))
+                .year(2020)
+                .month(5)
+                .day(7)
+                .hour("19")
+                .minutes("00").build());
+        screeningDao.save(Screening.builder()
+                .auditorium(auditoriums.get(1))
+                .movie(movies.get(1))
+                .year(2020)
+                .month(5)
+                .day(9)
+                .hour("19")
+                .minutes("00").build());
+        screeningDao.save(Screening.builder()
+                .auditorium(auditoriums.get(1))
+                .movie(movies.get(2))
+                .year(2020)
+                .month(5)
+                .day(9)
                 .hour("16")
                 .minutes("00").build());
     }

@@ -2,7 +2,8 @@ import io
 
 import eel
 from PIL import Image
-from zeep import Client
+from requests import Session
+from zeep import Client, Transport
 
 index_movie = None
 index_screening = None
@@ -12,12 +13,13 @@ pom_index = None
 user = None
 
 url = 'http://localhost:8080'
-
-movie_Service = Client(url + '/movie/service?wsdl').service
-image_Service = Client(url + '/image/service?wsdl').service
-screening_Service = Client(url + '/screening/service?wsdl').service
-reservation_Service = Client(url + '/reservation/service?wsdl').service
-user_Service = Client(url + '/user/service?wsdl').service
+session = Session()
+session.proxies = {"http": 'http://localhost:4040', "https": 'https://localhost:4040'}
+movie_Service = Client(url + '/movie/service?wsdl', transport=Transport(session=session)).service
+image_Service = Client(url + '/image/service?wsdl', transport=Transport(session=session)).service
+screening_Service = Client(url + '/screening/service?wsdl', transport=Transport(session=session)).service
+reservation_Service = Client(url + '/reservation/service?wsdl', transport=Transport(session=session)).service
+user_Service = Client(url + '/user/service?wsdl', transport=Transport(session=session)).service
 
 eel.init('pages')
 
@@ -331,8 +333,9 @@ def remove_reservation(id):
 @eel.expose
 def reserve():
     global pom_index
+    global index_reservation
     if pom_index is None:
-        reservation_Service.reserve(index_screening, indexs_seats, user['id'])
+        index_reservation = reservation_Service.reserve(index_screening, indexs_seats, user['id'])
     else:
         reservation_Service.updateSeats(pom_index, indexs_seats)
         pom_index = None
@@ -442,6 +445,18 @@ def create_view_list_reservation():
     string_html += '</table>'
     return string_html
 
+@eel.expose
+def load_pdf():
+    global index_reservation
+    data = reservation_Service.sendPdf(index_reservation)
+    name = str(index_reservation) + '_reservation.pdf'
+    f = open('pages/'+name, 'w+b')
+    byte_arr = [120, 3, 255, 0, 100]
+    binary_format = bytearray(data)
+    f.write(binary_format)
+    f.close()
+    index_reservation = None
+    return name
 
 @eel.expose
 def is_user_logged_in():

@@ -17,7 +17,6 @@
 <body>
 <div class="fixed-top my-nav">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="index.html">Cinema</a>
         <div class="collapse navbar-collapse" id="navbarNavDropdown">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
@@ -38,14 +37,22 @@
     </nav>
 </div>
 <div id="container">
-    <div style="text-align: center; background-color: #343a40; padding: 100px; margin: 100px;">
+    <div style="text-align: center; background-color: #343a40; padding: 100px; margin: 100px; margin-bottom: 10px;">
         <h1>Thank you for your reservation!</h1>
         <h4>Confirmation has been sent to:</h4>
         <h5 id="email"></h5>
     </div>
+    <iframe style="width: 100%; height: 470px;" id="pdf" scrolling="true">
+    </iframe>
 </div>
 </body>
 <script>
+    function loadPdf(name) {
+        document.getElementById("pdf").src = name;
+    }
+
+    eel.load_pdf()(loadPdf);
+
     function check(response) {
         if (response == "Empty") {
             window.location.href = "login.html";

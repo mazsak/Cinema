@@ -43,6 +43,7 @@ public class UserService {
 
     @WebMethod
     public User updateUser(User user) {
+        user.setPassword(Base64.getEncoder().encodeToString(user.getPassword().getBytes()));
         userDao.update(user);
         return user;
     }
