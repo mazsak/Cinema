@@ -8,7 +8,7 @@ import javax.xml.ws.handler.soap.SOAPMessageContext;
 import javax.xml.ws.soap.SOAPFaultException;
 import java.util.Set;
 
-public class GeGeGeHandler implements SOAPHandler<SOAPMessageContext> {
+public class RequestsHandler implements SOAPHandler<SOAPMessageContext> {
 
     @Override
     public boolean handleMessage(SOAPMessageContext context) {
