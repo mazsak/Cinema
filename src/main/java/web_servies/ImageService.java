@@ -1,6 +1,7 @@
 package web_servies;
 
 import javax.imageio.ImageIO;
+import javax.jws.HandlerChain;
 import javax.jws.WebService;
 import javax.xml.ws.BindingType;
 import javax.xml.ws.soap.MTOM;
@@ -11,6 +12,7 @@ import java.io.IOException;
 
 @MTOM
 @WebService(serviceName = "service")
+@HandlerChain(file = "handler-chain.xml")
 @BindingType(value = SOAPBinding.SOAP11HTTP_MTOM_BINDING)
 public class ImageService {
 

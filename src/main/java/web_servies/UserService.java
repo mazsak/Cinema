@@ -3,6 +3,7 @@ package web_servies;
 import dao.UserDao;
 import entities.User;
 
+import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.xml.ws.BindingType;
@@ -11,6 +12,7 @@ import javax.xml.ws.soap.SOAPBinding;
 
 @MTOM
 @WebService(serviceName = "service")
+@HandlerChain(file = "handler-chain.xml")
 @BindingType(value = SOAPBinding.SOAP11HTTP_MTOM_BINDING)
 public class UserService {
 

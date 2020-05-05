@@ -13,6 +13,7 @@ import entities.Screening;
 import entities.Seat;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
 
+import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
@@ -31,6 +32,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @WebService(serviceName = "service")
+@HandlerChain(file = "handler-chain.xml")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL)
 public class ReservationService {
 

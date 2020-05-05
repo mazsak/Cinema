@@ -3,12 +3,14 @@ package web_servies;
 import dao.ScreeningDao;
 import entities.Screening;
 
+import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 import javax.jws.soap.SOAPBinding;
 import java.util.List;
 
 @WebService(serviceName = "service")
+@HandlerChain(file = "handler-chain.xml")
 @SOAPBinding(style = SOAPBinding.Style.DOCUMENT, use = SOAPBinding.Use.LITERAL)
 public class ScreeningService {
 

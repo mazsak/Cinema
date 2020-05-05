@@ -24,4 +24,6 @@ public class User {
 
     @Column(name = "phone_number")
     private long phoneNumber;
+
+    private String code;
 }
