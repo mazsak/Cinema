@@ -9,6 +9,7 @@ import javax.jws.WebService;
 import javax.xml.ws.BindingType;
 import javax.xml.ws.soap.MTOM;
 import javax.xml.ws.soap.SOAPBinding;
+import java.util.Base64;
 
 @MTOM
 @WebService(serviceName = "service")
@@ -24,6 +25,7 @@ public class UserService {
 
     @WebMethod
     public User createUser(String username, String password, long phoneNumber, String mail) {
+        password = Base64.getEncoder().encodeToString(password.getBytes());
         userDao.save(
                 User.builder()
                         .username(username)
@@ -35,6 +37,7 @@ public class UserService {
 
     @WebMethod
     public User findUserByUsernameAndPassword(String username, String password){
+        password = Base64.getEncoder().encodeToString(password.getBytes());
         return userDao.findUserByUsernameAndPassword(username, password);
     }
 

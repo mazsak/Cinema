@@ -4,6 +4,7 @@ import dao.*;
 import entities.*;
 
 import java.time.LocalDate;
+import java.util.Base64;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -25,17 +26,17 @@ public class InitDatabase {
         UserDao userDao = new UserDao();
         userDao.save(User.builder()
                 .username("user1")
-                .password("dddd")
+                .password(Base64.getEncoder().encodeToString("dddd".getBytes()))
                 .mail("mazsak97@gmail.com")
                 .phoneNumber(123123123).build());
         userDao.save(User.builder()
                 .username("user2")
-                .password("aaaa")
+                .password(Base64.getEncoder().encodeToString("aaaa".getBytes()))
                 .mail("ktus1@c.cc")
                 .phoneNumber(123123123).build());
         userDao.save(User.builder()
                 .username("user3")
-                .password("qqqq")
+                .password(Base64.getEncoder().encodeToString("qqqq".getBytes()))
                 .mail("ktus2@c.cc")
                 .phoneNumber(123123123).build());
     }
