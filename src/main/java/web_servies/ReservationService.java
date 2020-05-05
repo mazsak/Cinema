@@ -11,7 +11,9 @@ import entities.Auditorium;
 import entities.Reservation;
 import entities.Screening;
 import entities.Seat;
+import org.apache.pdfbox.io.IOUtils;
 import org.omg.CosNaming.NamingContextPackage.NotFound;
+import sun.nio.ch.IOUtil;
 
 import javax.jws.HandlerChain;
 import javax.jws.WebMethod;
@@ -22,9 +24,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.List;
 import java.util.Objects;
 import java.util.Properties;
@@ -59,7 +59,7 @@ public class ReservationService {
     }
 
     @WebMethod
-    public void reserve(Long screeningId, List<Long> seatIds, Long userId) {
+    public Long reserve(Long screeningId, List<Long> seatIds, Long userId) {
         Reservation reservation = new Reservation();
         reservation.setReserved(true);
         screeningDao.findById(screeningId).ifPresent(reservation::setScreening);
@@ -74,6 +74,7 @@ public class ReservationService {
             }
         });
         reservationDao.save(reservation);
+        return reservation.getId();
     }
 
     @WebMethod
@@ -118,6 +119,39 @@ public class ReservationService {
         boolean[][] seats = new boolean[auditorium.getRow()][auditorium.getNumber()];
         reservedSeatsForScreening.forEach(seat -> seats[seat.getRow()][seat.getNumber()] = true);
         return seats;
+    }
+
+    @WebMethod
+    public byte[] sendPdf(Long reservationId) throws IOException, DocumentException, NotFound {
+        Reservation reservation = reservationDao.findById(reservationId).orElseThrow(NotFound::new);
+        String msg = "Thank you for your reservation.";
+
+        Document document = new Document();
+        PdfWriter.getInstance(document, new FileOutputStream("reservation.pdf"));
+
+        document.open();
+        if (reservation==null){
+            throw new NotFound();
+        }
+        Font font = FontFactory.getFont(FontFactory.COURIER, 16, BaseColor.BLACK);
+        Screening screening = reservation.getScreening();
+        Chunk header = new Chunk("Reservation details: ", font);
+        Chunk filmDetails = new Chunk("Reservation for: " +
+                screening.getMovie().getTitle() +
+                " on: " + screening.getDay() +"." + screening.getMonth() + "." + screening.getYear() + ", at: " +
+                screening.getHour() + ":" +screening.getMinutes(), font);
+        Chunk auditorium = new Chunk("At auditorium: " + screening.getAuditorium().getName(), font);
+        final String[] reservationDetails = {"Seats: \n"};
+        reservation.getSeats()
+                .forEach(seat -> reservationDetails[0] = reservationDetails[0].concat("row: " + (seat.getRow() + 1) + ", number: " + (seat.getNumber() + 1) + "\n"));
+        Chunk details = new Chunk(reservationDetails[0], font);
+        document.add(new Paragraph(header));
+        document.add(new Paragraph(filmDetails));
+        document.add(new Paragraph(auditorium));
+        document.add(new Paragraph(details));
+
+        document.close();
+        return IOUtils.toByteArray(new FileInputStream("reservation.pdf"));
     }
 
 
