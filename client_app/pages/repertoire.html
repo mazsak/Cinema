@@ -74,16 +74,16 @@
 
     createDate();
 
-    function getScreening(day, month, year) {
-        eel.create_view_repertoire(day, month, year)(showScreening);
+    async function getScreening(day, month, year) {
+        await eel.create_view_repertoire(day, month, year)(showScreening);
     }
 
     function showScreening(stringHTML) {
         document.getElementById("screenings").innerHTML = stringHTML;
     }
 
-    function goToReservation(id) {
-        eel.change_index_screening(id);
+    async function goToReservation(id) {
+        await eel.change_index_screening(id)();
         window.location.href = "reservation.html";
     }
 

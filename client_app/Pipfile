@@ -9,6 +9,9 @@ verify_ssl = true
 eel = "*"
 zeep = "*"
 pillow = "*"
+async-eel = "*"
+await = "*"
+expiringdict = "*"
 
 [requires]
 python_version = "3.6"

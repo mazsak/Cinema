@@ -83,8 +83,8 @@
         }
     }
 
-    function login() {
-        eel.login(document.getElementById("login").value, document.getElementById("password").value)(nextSteps);
+    async function login() {
+        await eel.login(document.getElementById("login").value, document.getElementById("password").value)(nextSteps);
 
     }
 

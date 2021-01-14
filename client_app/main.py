@@ -1,4 +1,5 @@
 import io
+import asyncio
 
 import eel
 from PIL import Image
@@ -21,7 +22,7 @@ screening_Service = Client(url + '/screening/service?wsdl', transport=Transport(
 reservation_Service = Client(url + '/reservation/service?wsdl', transport=Transport(session=session)).service
 user_Service = Client(url + '/user/service?wsdl', transport=Transport(session=session)).service
 
-eel.init('pages')
+loop = asyncio.get_event_loop()
 
 
 @eel.expose
@@ -445,18 +446,20 @@ def create_view_list_reservation():
     string_html += '</table>'
     return string_html
 
+
 @eel.expose
 def load_pdf():
     global index_reservation
     data = reservation_Service.sendPdf(index_reservation)
     name = str(index_reservation) + '_reservation.pdf'
-    f = open('pages/'+name, 'w+b')
+    f = open('pages/' + name, 'w+b')
     byte_arr = [120, 3, 255, 0, 100]
     binary_format = bytearray(data)
     f.write(binary_format)
     f.close()
     index_reservation = None
     return name
+
 
 @eel.expose
 def is_user_logged_in():
@@ -472,4 +475,10 @@ def update_user(username, password, phone_number, mail):
         {'id': user['id'], 'username': username, 'password': password, 'phoneNumber': phone_number, 'mail': mail})
 
 
-eel.start('login.html')
+async def main():
+    eel.init('pages')
+    await eel.start('login.html')
+
+if __name__ == '__main__':
+    asyncio.run_coroutine_threadsafe(main(), loop)
+    loop.run_forever()

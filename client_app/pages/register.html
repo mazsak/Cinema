@@ -115,8 +115,8 @@
         }
     }
 
-    function register() {
-        eel.register(document.getElementById("login").value,
+    async function register() {
+        await eel.register(document.getElementById("login").value,
             document.getElementById("password").value,
             document.getElementById("number-phone").value,
             document.getElementById("email").value)(nextSteps);
